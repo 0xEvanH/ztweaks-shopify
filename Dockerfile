@@ -35,4 +35,4 @@ COPY --from=builder /app/server.ts    ./server.ts
 
 EXPOSE 3000
 
-CMD ["bun", "run", "dist/server/index.ts"]
+CMD ["bun", "run", "dist/server/index.js"]
