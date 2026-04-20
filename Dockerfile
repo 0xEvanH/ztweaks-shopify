@@ -31,8 +31,8 @@ ENV PORT=3000
 COPY --from=builder /app/dist   ./dist
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/server.js    ./server.js
+COPY --from=builder /app/server.ts    ./server.ts
 
 EXPOSE 3000
 
-CMD ["bun", "run", "dist/server/index.js"]
+CMD ["bun", "run", "dist/server/index.ts"]
