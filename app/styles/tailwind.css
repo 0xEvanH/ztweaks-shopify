@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Coolvetica';
+  src: url('/coolvetica.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Tailwind v4 theme tokens ──────────────────────────────────────────────── */
+@theme {
+  /* Renamed from --font-display to --font-heading.
+     In Tailwind v4, --font-display maps to the CSS `font-display` loading
+     property (used in @font-face), NOT font-family — so the generated
+     .font-display utility was silently broken. --font-heading avoids that. */
+  --font-heading: 'Coolvetica', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+  --font-body:    'DM Sans', sans-serif;
+
+  --color-z-black: #050505;
+
+  --animate-ticker: ticker 28s linear infinite;
+
+  @keyframes ticker {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: #050505;
+  color: #f0f0f0;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: #050505; }
+::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+
+/* ── Glass card ────────────────────────────────────────────────────────────── */
+.glass-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  transition:
+    border-color 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow   0.4s cubic-bezier(0.23, 1, 0.32, 1),
+    background   0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.glass-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.glass-card:hover::after { opacity: 1; }
+
+/* ── Utility aliases ───────────────────────────────────────────────────────── */
+/* .font-display kept as the class name so existing components don't need
+   updating — it now correctly points to --font-heading. */
+.font-display { font-family: var(--font-heading); }
+.font-mono    { font-family: var(--font-mono); }
+
+/* ── Shopify policy HTML body ─────────────────────────────────────────────── */
+.policy-body h1, .policy-body h2, .policy-body h3 {
+  font-family: var(--font-heading);
+  letter-spacing: 0.03em;
+  color: rgba(255,255,255,0.75);
+  margin: 1.5em 0 0.5em;
+}
+.policy-body h1 { font-size: clamp(24px, 3vw, 36px); }
+.policy-body h2 { font-size: clamp(18px, 2.5vw, 26px); }
+.policy-body h3 { font-size: clamp(14px, 2vw, 20px); }
+.policy-body p  { margin-bottom: 1em; }
+.policy-body a  { color: rgba(255,255,255,0.6); text-decoration: underline; }
+.policy-body a:hover { color: rgba(255,255,255,0.9); }
+.policy-body ul, .policy-body ol { padding-left: 1.5em; margin-bottom: 1em; }
+.policy-body li { margin-bottom: 0.4em; }
