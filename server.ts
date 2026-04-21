@@ -3,7 +3,6 @@ import { createRequestHandler, storefrontRedirect } from '@shopify/hydrogen';
 import { createHydrogenRouterContext } from '~/lib/context';
 import { existsSync } from 'fs';
 import { join } from 'path';
-import { gunzipSync } from 'zlib';
 
 declare const Bun: {
   file(staticPath: string): BodyInit | null | undefined; env: Record<string, string>
@@ -105,28 +104,30 @@ export default {
       // ✅ Response is returned as-is — do NOT touch Content-Encoding here
       const response = await handleRequest(request);
 
-      // 👇 Add this block — decompress if Coolify stripped the header
+      // Only decompress if actually gzip encoded
       const encoding = response.headers.get('Content-Encoding');
       if (encoding === 'gzip') {
-        const buffer = await response.arrayBuffer();
-        const decompressed = gunzipSync(Buffer.from(buffer));
-        const newHeaders = new Headers(response.headers);
-        newHeaders.delete('Content-Encoding');
+        try {
+          const buffer = await response.arrayBuffer();
+          const bytes = new Uint8Array(buffer);
+          
+          // Check gzip magic bytes before attempting decompress
+          if (bytes[0] === 0x1f && bytes[1] === 0x8b) {
+            const { gunzipSync } = await import('zlib');
+            const decompressed = gunzipSync(Buffer.from(buffer));
+            const newHeaders = new Headers(response.headers);
+            newHeaders.delete('Content-Encoding');
 
-        const decompressedResponse = new Response(decompressed, {
-          status: response.status,
-          statusText: response.statusText,
-          headers: newHeaders,
-        });
-
-        if (hydrogenContext.session.isPending) {
-          decompressedResponse.headers.set(
-            'Set-Cookie',
-            await hydrogenContext.session.commit(),
-          );
+            return new Response(decompressed, {
+              status: response.status,
+              statusText: response.statusText,
+              headers: newHeaders,
+            });
+          }
+        } catch (e) {
+          // If decompression fails, fall through and return original
+          console.error('Decompression failed:', e);
         }
-
-        return decompressedResponse;
       }
 
       if (response.status === 404) {
