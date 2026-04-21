@@ -2,6 +2,8 @@ import * as serverBuild from 'virtual:react-router/server-build';
 import {createRequestHandler, storefrontRedirect} from '@shopify/hydrogen';
 import {createHydrogenRouterContext} from '~/lib/context';
 
+declare const Bun: {env: Record<string, string>};
+
 const STATIC_EXTENSIONS = new Set([
   'otf', 'ttf', 'woff', 'woff2',
   'mp4', 'webm', 'ogg', 'mov',
@@ -24,7 +26,7 @@ export default {
     executionContext: ExecutionContext,
   ): Promise<Response> {
     try {
-      const mergedEnv: Env = {...process.env, ...env} as Env;
+      const mergedEnv: Env = {...(Bun.env as unknown as Env), ...env} as Env;
       console.log('ENV CHECK:', Object.keys(mergedEnv), !!mergedEnv.SESSION_SECRET);
       const hydrogenContext = await createHydrogenRouterContext(
         request,
