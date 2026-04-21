@@ -39,6 +39,22 @@ export default {
 
       // Serve static assets from dist/client
       const url = new URL(request.url);
+      
+      // 👇 Add this block first
+      const publicPath = join(process.cwd(), 'public', url.pathname);
+      if (existsSync(publicPath) && !url.pathname.endsWith('/')) {
+        const ext = url.pathname.split('.').pop()?.toLowerCase();
+        const isVideo = ['mp4', 'webm', 'mov', 'ogg'].includes(ext ?? '');
+
+        return new Response(Bun.file(publicPath), {
+          headers: {
+            'Content-Type': isVideo ? `video/${ext}` : '',
+            'Content-Encoding': 'identity', // prevent proxy compression
+            'Cache-Control': 'public, max-age=31536000',
+          },
+        });
+      }
+
       const staticPath = join(process.cwd(), 'dist/client', url.pathname);
       if (existsSync(staticPath) && !url.pathname.endsWith('/')) {
         return new Response(Bun.file(staticPath));
