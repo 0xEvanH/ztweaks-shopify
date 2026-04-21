@@ -25,7 +25,7 @@ export default {
   ): Promise<Response> {
     try {
       const mergedEnv: Env = {...process.env, ...env} as Env;
-
+      console.log('ENV CHECK:', Object.keys(mergedEnv), !!mergedEnv.SESSION_SECRET);
       const hydrogenContext = await createHydrogenRouterContext(
         request,
         mergedEnv,
