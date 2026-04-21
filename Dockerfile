@@ -28,10 +28,17 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 
-COPY --from=builder /app/dist   ./dist
-COPY --from=builder /app/public ./public
+# Runtime secrets — values injected by Coolify at deploy time
+ENV SESSION_SECRET=""
+ENV PUBLIC_STORE_DOMAIN=""
+ENV PUBLIC_STOREFRONT_API_TOKEN=""
+ENV PUBLIC_STOREFRONT_ID=""
+ENV PUBLIC_CHECKOUT_DOMAIN=""
+
+COPY --from=builder /app/dist        ./dist
+COPY --from=builder /app/public      ./public
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/server.ts    ./server.ts
+COPY --from=builder /app/server.js   ./server.ts
 
 EXPOSE 3000
 
