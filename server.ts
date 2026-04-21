@@ -24,9 +24,11 @@ export default {
     executionContext: ExecutionContext,
   ): Promise<Response> {
     try {
+      const mergedEnv: Env = {...process.env, ...env} as Env;
+
       const hydrogenContext = await createHydrogenRouterContext(
         request,
-        env,
+        mergedEnv,
         executionContext,
       );
 
