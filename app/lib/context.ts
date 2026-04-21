@@ -1,7 +1,7 @@
-import {createHydrogenContext} from '@shopify/hydrogen';
-import {AppSession} from '~/lib/session';
-import {CART_QUERY_FRAGMENT} from '~/lib/fragments';
-import {getLocaleFromRequest} from '~/lib/i18n';
+import { createHydrogenContext } from '@shopify/hydrogen';
+import { AppSession } from '~/lib/session';
+import { CART_QUERY_FRAGMENT } from '~/lib/fragments';
+import { getLocaleFromRequest } from '~/lib/i18n';
 
 // Define the additional context object
 const additionalContext = {
@@ -16,7 +16,7 @@ const additionalContext = {
 type AdditionalContextType = typeof additionalContext;
 
 declare global {
-  interface HydrogenAdditionalContext extends AdditionalContextType {}
+  interface HydrogenAdditionalContext extends AdditionalContextType { }
 }
 
 /**
@@ -36,10 +36,11 @@ export async function createHydrogenRouterContext(
   }
 
   const waitUntil = executionContext.waitUntil.bind(executionContext);
-  const [cache, session] = await Promise.all([
-    caches.open('hydrogen'),
-    AppSession.init(request, [env.SESSION_SECRET]),
-  ]);
+  const cache = typeof caches !== 'undefined'
+    ? await caches.open('hydrogen')
+    : undefined as unknown as Cache;
+
+  const session = await AppSession.init(request, [env.SESSION_SECRET]);
 
   const hydrogenContext = createHydrogenContext(
     {
