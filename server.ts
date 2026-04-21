@@ -5,7 +5,7 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 
 declare const Bun: {
-  file(staticPath: string): BodyInit | null | undefined; env: Record<string, string> 
+  file(staticPath: string): BodyInit | null | undefined; env: Record<string, string>
 };
 
 const STATIC_EXTENSIONS = new Set([
@@ -39,9 +39,15 @@ export default {
 
       // Serve static assets from dist/client
       const url = new URL(request.url);
-      const staticPath = join(process.cwd(), 'dist/client', url.pathname);
-      if (existsSync(staticPath) && !url.pathname.endsWith('/')) {
-        return new Response(Bun.file(staticPath));
+      // Check dist/client first, then public/
+      const distPath = join(process.cwd(), 'dist/client', url.pathname);
+      const publicPath = join(process.cwd(), 'public', url.pathname);
+
+      if (existsSync(distPath)) {
+        return new Response(Bun.file(distPath));
+      }
+      if (existsSync(publicPath)) {
+        return new Response(Bun.file(publicPath));
       }
 
       const hydrogenContext = await createHydrogenRouterContext(
