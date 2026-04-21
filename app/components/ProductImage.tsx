@@ -3,12 +3,32 @@ import {Image} from '@shopify/hydrogen';
 
 export function ProductImage({
   image,
+  videoPath, // 👈 Add the videoPath prop
 }: {
   image: ProductVariantFragment['image'];
+  videoPath?: string; // 👈 Add the type
 }) {
+  // 1. Check for video first
+  if (videoPath) {
+    return (
+      <div className="product-image">
+        <video
+          src={videoPath}
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{aspectRatio: '1/1', objectFit: 'cover', width: '100%'}}
+        />
+      </div>
+    );
+  }
+
+  // 2. Fallback to image logic
   if (!image) {
     return <div className="product-image" />;
   }
+
   return (
     <div className="product-image">
       <Image

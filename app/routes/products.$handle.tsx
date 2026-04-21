@@ -63,6 +63,8 @@ export default function Product() {
 
   useSelectedOptionInUrlParam(selectedVariant.selectedOptions);
 
+  const videoPath = product.video?.value;
+
   const productOptions = getProductOptions({
     ...product,
     selectedOrFirstAvailableVariant: selectedVariant,
@@ -72,7 +74,10 @@ export default function Product() {
 
   return (
     <div className="product">
-      <ProductImage image={selectedVariant?.image} />
+      <ProductImage 
+        image={selectedVariant?.image} 
+        videoPath={videoPath} 
+      />
       <div className="product-main">
         <h1>{title}</h1>
         <ProductPrice
@@ -155,6 +160,9 @@ const PRODUCT_FRAGMENT = `#graphql
     title
     vendor
     handle
+    video: metafield(namespace: "custom", key: "video") {
+      value
+    }
     descriptionHtml
     description
     encodedVariantExistence
