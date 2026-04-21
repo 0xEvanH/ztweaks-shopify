@@ -54,11 +54,11 @@ export default function Collection() {
         connection={collection.products}
         resourcesClassName="products-grid"
       >
-        {({node: product, index}) => (
+        {({node: product, index}: any) => (
           <ProductItem
             key={product.id}
             product={product}
-            loading={index < 8 ? 'eager' : undefined}
+            loading={index < 8 ? 'eager' : undefined}         
           />
         )}
       </PaginatedResourceSection>
@@ -97,6 +97,9 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
       maxVariantPrice {
         ...MoneyProductItem
       }
+    }
+    video: metafield(namespace: "custom", key: "video_path") {
+      value
     }
   }
 ` as const;
