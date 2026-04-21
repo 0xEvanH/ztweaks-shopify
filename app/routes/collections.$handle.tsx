@@ -98,7 +98,7 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
         ...MoneyProductItem
       }
     }
-    video: metafield(namespace: "custom", key: "video_path") {
+    video: metafield(namespace: "custom", key: "video") {
       value
     }
   }

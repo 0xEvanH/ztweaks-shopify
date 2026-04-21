@@ -8,6 +8,7 @@ export function ProductImage({
   image: ProductVariantFragment['image'];
   videoPath?: string; // 👈 Add the type
 }) {
+  console.log(videoPath)
   // 1. Check for video first
   if (videoPath) {
     return (
