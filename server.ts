@@ -43,10 +43,6 @@ export default {
       if (existsSync(staticPath) && !url.pathname.endsWith('/')) {
         return new Response(Bun.file(staticPath));
       }
-      const publicPath = join(process.cwd(), 'public', url.pathname);
-      if (existsSync(publicPath)) {
-        return new Response(Bun.file(publicPath));
-      }
 
       const hydrogenContext = await createHydrogenRouterContext(
         request,
