@@ -27,11 +27,16 @@ export default {
   ): Promise<Response> {
     try {
       const mergedEnv: Env = {...(Bun.env as unknown as Env), ...env} as Env;
-      console.log('ENV CHECK:', Object.keys(mergedEnv), !!mergedEnv.SESSION_SECRET);
+      
+      const executionCtx: ExecutionContext = executionContext ?? {
+        waitUntil: (promise: Promise<unknown>) => promise,
+        passThroughOnException: () => {},
+      };
+      
       const hydrogenContext = await createHydrogenRouterContext(
         request,
         mergedEnv,
-        executionContext,
+        executionCtx,
       );
 
       const handleRequest = createRequestHandler({
