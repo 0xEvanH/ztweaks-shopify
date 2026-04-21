@@ -13,6 +13,7 @@ export default defineConfig({
     reactRouter(),
     tsconfigPaths(),
   ],
+  assetsInclude: ['**/*.mp4', '**/*.webm', '**/*.mov'],
   build: {
     // Allow a strict Content-Security-Policy
     // without inlining assets as base64:
