@@ -3,6 +3,7 @@ import { createRequestHandler, storefrontRedirect } from '@shopify/hydrogen';
 import { createHydrogenRouterContext } from '~/lib/context';
 import { existsSync } from 'fs';
 import { join } from 'path';
+import { gunzipSync } from 'zlib';
 
 declare const Bun: {
   file(staticPath: string): BodyInit | null | undefined; env: Record<string, string>
@@ -104,11 +105,28 @@ export default {
       // ✅ Response is returned as-is — do NOT touch Content-Encoding here
       const response = await handleRequest(request);
 
-      if (hydrogenContext.session.isPending) {
-        response.headers.set(
-          'Set-Cookie',
-          await hydrogenContext.session.commit(),
-        );
+      // 👇 Add this block — decompress if Coolify stripped the header
+      const encoding = response.headers.get('Content-Encoding');
+      if (encoding === 'gzip') {
+        const buffer = await response.arrayBuffer();
+        const decompressed = gunzipSync(Buffer.from(buffer));
+        const newHeaders = new Headers(response.headers);
+        newHeaders.delete('Content-Encoding');
+
+        const decompressedResponse = new Response(decompressed, {
+          status: response.status,
+          statusText: response.statusText,
+          headers: newHeaders,
+        });
+
+        if (hydrogenContext.session.isPending) {
+          decompressedResponse.headers.set(
+            'Set-Cookie',
+            await hydrogenContext.session.commit(),
+          );
+        }
+
+        return decompressedResponse;
       }
 
       if (response.status === 404) {
