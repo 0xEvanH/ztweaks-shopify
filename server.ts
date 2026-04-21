@@ -1,8 +1,12 @@
 import * as serverBuild from 'virtual:react-router/server-build';
-import {createRequestHandler, storefrontRedirect} from '@shopify/hydrogen';
-import {createHydrogenRouterContext} from '~/lib/context';
+import { createRequestHandler, storefrontRedirect } from '@shopify/hydrogen';
+import { createHydrogenRouterContext } from '~/lib/context';
+import { existsSync } from 'fs';
+import { join } from 'path';
 
-declare const Bun: {env: Record<string, string>};
+declare const Bun: {
+  file(staticPath: string): BodyInit | null | undefined; env: Record<string, string> 
+};
 
 const STATIC_EXTENSIONS = new Set([
   'otf', 'ttf', 'woff', 'woff2',
@@ -26,13 +30,20 @@ export default {
     executionContext: ExecutionContext,
   ): Promise<Response> {
     try {
-      const mergedEnv: Env = {...(Bun.env as unknown as Env), ...env} as Env;
-      
+      const mergedEnv: Env = { ...(Bun.env as unknown as Env), ...env } as Env;
+
       const executionCtx: ExecutionContext = executionContext ?? {
         waitUntil: (promise: Promise<unknown>) => promise,
-        passThroughOnException: () => {},
+        passThroughOnException: () => { },
       };
-      
+
+      // Serve static assets from dist/client
+      const url = new URL(request.url);
+      const staticPath = join(process.cwd(), 'dist/client', url.pathname);
+      if (existsSync(staticPath) && !url.pathname.endsWith('/')) {
+        return new Response(Bun.file(staticPath));
+      }
+
       const hydrogenContext = await createHydrogenRouterContext(
         request,
         mergedEnv,
@@ -69,7 +80,7 @@ export default {
       return response;
     } catch (error) {
       console.error(error);
-      return new Response('An unexpected error occurred', {status: 500});
+      return new Response('An unexpected error occurred', { status: 500 });
     }
   },
 };
