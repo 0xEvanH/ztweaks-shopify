@@ -79,7 +79,7 @@ export async function loader({context}: Route.LoaderArgs) {
         desc: p.description,
         price: `${currency}${price % 1 === 0 ? price : price.toFixed(2)}`,
         period: meta.period ?? 'one-time',
-        tags: meta.tags ? JSON.parse(meta.tags) : [],
+        tags: meta.tags ? (JSON.parse(meta.tags) as string[]) : [], // ✅ fixed TS2322: cast JSON.parse to string[]
         featured: meta.featured === 'true',
         badge: meta.badge ?? null,
         originalPrice: meta.original_price ?? null,
@@ -108,7 +108,7 @@ const STATIC_PRODUCTS: ShapedProduct[] = [
     featured: false,
     badge: null,
     originalPrice: null,
-    video: '/videos/ProTweaks.mp4',
+    video: '/ProTweaks.mp4',
     image: null,
     variantId: null,
     checkoutUrl: '#',
@@ -125,7 +125,7 @@ const STATIC_PRODUCTS: ShapedProduct[] = [
     featured: false,
     badge: null,
     originalPrice: null,
-    video: '/videos/Macro.mp4',
+    video: '/Macro.mp4',
     image: null,
     variantId: null,
     checkoutUrl: '#',
@@ -262,11 +262,18 @@ function ProductThumb({
         style={{backgroundImage: 'repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.05) 2px,rgba(0,0,0,0.05) 4px)'}} />
 
       {showVideo ? (
-        <video ref={videoRef} src={video} className="absolute inset-0 w-full h-full object-cover"
-          loop muted playsInline
+        <video
+          ref={videoRef}
+          src={video}
+          className="absolute inset-0 w-full h-full object-cover"
+          loop
+          muted
+          playsInline
+          autoPlay
           onError={() => setVideoErrored(true)}
           onPlay={() => setPlaying(true)}
-          onPause={() => setPlaying(false)} />
+          onPause={() => setPlaying(false)}
+        />
       ) : image ? (
         <img src={image} alt={label} className="absolute inset-0 w-full h-full object-cover opacity-60" />
       ) : (
@@ -283,13 +290,14 @@ function ProductThumb({
 
       {showVideo && (
         <div className="absolute inset-0 z-20 flex items-center justify-center">
-          <button onClick={handlePlay}
-            className={`rounded-full border border-white/[0.12] flex items-center justify-center backdrop-blur-sm transition-all duration-300 hover:bg-white/10 group ${small ? 'w-11 h-11' : 'w-12 h-12'}`}
+          <button
+            onClick={handlePlay}
+            className={`rounded-full border border-white/12 flex items-center justify-center backdrop-blur-sm transition-all duration-300 hover:bg-white/10 group ${small ? 'w-11 h-11' : 'w-12 h-12'}`}
             style={{background: 'rgba(255,255,255,0.06)'}}>
             {playing ? (
-              <div className="flex gap-[3px]">
-                <div className="w-[3px] h-[14px] bg-white/70 rounded-sm" />
-                <div className="w-[3px] h-[14px] bg-white/70 rounded-sm" />
+              <div className="flex gap-0.75">
+                <div className="w-0.75 h-3.5 bg-white/70 rounded-sm" />
+                <div className="w-0.75 h-3.5 bg-white/70 rounded-sm" />
               </div>
             ) : (
               <div className="border-t-transparent border-b-transparent border-l-white/70 ml-0.5"
@@ -326,14 +334,14 @@ export default function Products() {
           <motion.h1 initial={{opacity:0,y:24}} animate={{opacity:1,y:0}}
             transition={{duration:0.7,delay:0.06,ease:[0.22,1,0.36,1]}}
             className="font-display text-[clamp(56px,9vw,110px)] leading-[0.88] tracking-[0.02em] text-white mb-6">
-            THE FULL<br /><span className="text-white/[0.18]">LOADOUT</span>
+            THE FULL<br /><span className="text-white/18">LOADOUT</span>
           </motion.h1>
           <motion.p initial={{opacity:0,y:12}} animate={{opacity:1,y:0}} transition={{duration:0.6,delay:0.18}}
             className="text-white/35 text-[14px] font-light max-w-md leading-relaxed mx-auto">
             Click any product to go straight to checkout. Every tool ships with a 30-day satisfaction guarantee.
           </motion.p>
           {source === 'static' && (
-            <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06]">
+            <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/4 border border-white/6">
               <span className="w-1.5 h-1.5 rounded-full bg-yellow-400/60" />
               <span className="font-mono text-[9px] tracking-widest text-white/25 uppercase">Preview mode — connect Shopify to go live</span>
             </div>
@@ -351,14 +359,14 @@ export default function Products() {
               className={p.featured ? 'md:col-span-2' : ''}>
 
               <a href={p.checkoutUrl} className="block group">
-                <div className={`glass-card overflow-hidden ${p.featured ? 'border-white/[0.12]' : ''}`}>
+                <div className={`glass-card overflow-hidden ${p.featured ? 'border-white/12' : ''}`}>
 
                   {p.featured ? (
                     <div className="grid md:grid-cols-2">
-                      <div className="relative aspect-video md:aspect-auto min-h-[200px]">
+                      <div className="relative aspect-video md:aspect-auto min-h-50">
                         {p.badge && (
                           <div className="absolute top-4 left-4 z-30">
-                            <span className="font-mono text-[9px] tracking-[0.15em] text-white/60 uppercase px-3 py-1.5 bg-white/[0.08] border border-white/[0.12] rounded-full">
+                            <span className="font-mono text-[9px] tracking-[0.15em] text-white/60 uppercase px-3 py-1.5 bg-white/8 border border-white/12 rounded-full">
                               {p.badge}
                             </span>
                           </div>
@@ -370,7 +378,7 @@ export default function Products() {
                         <div className="font-display text-[38px] tracking-wider text-white mb-4">{p.name}</div>
                         <div className="flex flex-wrap gap-2 mb-4">
                           {p.tags.map((t) => (
-                            <span key={t} className="px-2.5 py-1 bg-white/[0.04] border border-white/[0.07] rounded-md font-mono text-[9px] tracking-widest text-white/30 uppercase">{t}</span>
+                            <span key={t} className="px-2.5 py-1 bg-white/4 border border-white/7 rounded-md font-mono text-[9px] tracking-widest text-white/30 uppercase">{t}</span>
                           ))}
                         </div>
                         <p className="text-[13px] text-white/38 leading-relaxed font-light mb-6">{p.desc}</p>
@@ -400,7 +408,7 @@ export default function Products() {
                         <div className="font-display text-[26px] tracking-wider text-white mb-3">{p.name}</div>
                         <div className="flex flex-wrap gap-1.5 mb-3">
                           {p.tags.map((t) => (
-                            <span key={t} className="px-2 py-0.5 bg-white/[0.04] border border-white/[0.06] rounded font-mono text-[9px] tracking-widest text-white/[0.28] uppercase">{t}</span>
+                            <span key={t} className="px-2 py-0.5 bg-white/4 border border-white/6 rounded font-mono text-[9px] tracking-widest text-white/[0.28] uppercase">{t}</span>
                           ))}
                         </div>
                         <p className="text-[12px] text-white/35 leading-relaxed font-light mb-5">{p.desc}</p>
@@ -409,7 +417,7 @@ export default function Products() {
                             {p.price}
                             <span className="font-mono text-[9px] text-white/30 tracking-widest ml-1.5">/{p.period}</span>
                           </div>
-                          <div className="px-4 py-2 bg-white/[0.05] border border-white/10 text-white/75 text-[11px] font-semibold tracking-wider rounded-lg group-hover:bg-white group-hover:text-z-black group-hover:border-transparent transition-all duration-300">
+                          <div className="px-4 py-2 bg-white/5 border border-white/10 text-white/75 text-[11px] font-semibold tracking-wider rounded-lg group-hover:bg-white group-hover:text-z-black group-hover:border-transparent transition-all duration-300">
                             {p.available ? 'Get Access →' : 'Sold Out'}
                           </div>
                         </div>

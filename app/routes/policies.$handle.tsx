@@ -101,7 +101,7 @@ export default function Policy() {
 
       <motion.div
         initial={{opacity: 0, y: 16}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay: 0.15}}
-        className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-8 md:p-12"
+        className="rounded-2xl border border-white/[0.07] bg-white/2 p-8 md:p-12"
       >
         {source === 'shopify' && policy.body ? (
           <div
