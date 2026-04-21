@@ -1,8 +1,17 @@
 import * as serverBuild from 'virtual:react-router/server-build';
 import { createRequestHandler, storefrontRedirect } from '@shopify/hydrogen';
 import { createHydrogenRouterContext } from '~/lib/context';
-import { existsSync } from 'fs';
-import { join } from 'path';
+let existsSync: typeof import('fs').existsSync;
+let join: typeof import('path').join;
+
+try {
+  ({ existsSync } = await import('fs'));
+  ({ join } = await import('path'));
+} catch {
+  // MiniOxygen / edge runtime fallback
+  existsSync = () => false;
+  join = (...parts: string[]) => parts.join('/');
+}
 
 declare const Bun: {
   file(staticPath: string): BodyInit | null | undefined; env: Record<string, string>
@@ -83,6 +92,7 @@ export default {
         });
       }
 
+
       // Serve built client assets from /dist/client
       const staticPath = join(process.cwd(), 'dist/client', url.pathname);
       if (existsSync(staticPath) && !url.pathname.endsWith('/')) {
@@ -110,7 +120,7 @@ export default {
         try {
           const buffer = await response.arrayBuffer();
           const bytes = new Uint8Array(buffer);
-          
+
           // Check gzip magic bytes before attempting decompress
           if (bytes[0] === 0x1f && bytes[1] === 0x8b) {
             const { gunzipSync } = await import('zlib');

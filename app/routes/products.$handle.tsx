@@ -74,13 +74,11 @@ export default function Product() {
 
   return (
     <div className="product">
+      <span>THE PATH IS: {videoPath}</span>
       <ProductImage
         image={selectedVariant?.image}
         videoPath={videoPath}
-      />
-      <div style={{ background: 'red', color: 'white', padding: '10px', margin: '10px 0' }}>
-        DEBUG METADA: {product.video ? JSON.stringify(product.video) : 'VIDEO IS UNDEFINED'}
-      </div>
+      /> 
       <div className="product-main">
         <h1>{title}</h1>
         <ProductPrice

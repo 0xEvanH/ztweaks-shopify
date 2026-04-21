@@ -20,7 +20,7 @@ export function ProductItem({
 
   // TypeScript is now happy!
   const videoPath = (product as ProductItemFragment).video?.value;
-  console.log('videoPath:', videoPath); // 👈 add this
+  
   return (
     <Link className="product-item" prefetch="intent" to={variantUrl}>
       {videoPath ? (
