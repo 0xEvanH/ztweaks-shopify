@@ -17,6 +17,33 @@ const STATIC_EXTENSIONS = new Set([
   'pdf', 'txt', 'xml', 'json',
 ]);
 
+const MIME_TYPES: Record<string, string> = {
+  mp4: 'video/mp4',
+  webm: 'video/webm',
+  ogg: 'video/ogg',
+  mov: 'video/quicktime',
+  mp3: 'audio/mpeg',
+  wav: 'audio/wav',
+  png: 'image/png',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  gif: 'image/gif',
+  webp: 'image/webp',
+  avif: 'image/avif',
+  svg: 'image/svg+xml',
+  ico: 'image/x-icon',
+  css: 'text/css',
+  js: 'application/javascript',
+  json: 'application/json',
+  pdf: 'application/pdf',
+  txt: 'text/plain',
+  xml: 'application/xml',
+  otf: 'font/otf',
+  ttf: 'font/ttf',
+  woff: 'font/woff',
+  woff2: 'font/woff2',
+};
+
 function isStaticAsset(request: Request): boolean {
   const url = new URL(request.url);
   const ext = url.pathname.split('.').pop()?.toLowerCase();
@@ -37,24 +64,26 @@ export default {
         passThroughOnException: () => { },
       };
 
-      // Serve static assets from dist/client
       const url = new URL(request.url);
-      
-      // 👇 Add this block first
+
+      // Serve files from /public (videos, images, fonts, etc.)
       const publicPath = join(process.cwd(), 'public', url.pathname);
       if (existsSync(publicPath) && !url.pathname.endsWith('/')) {
-        const ext = url.pathname.split('.').pop()?.toLowerCase();
-        const isVideo = ['mp4', 'webm', 'mov', 'ogg'].includes(ext ?? '');
+        const ext = url.pathname.split('.').pop()?.toLowerCase() ?? '';
+        const contentType = MIME_TYPES[ext] ?? 'application/octet-stream';
+        const isVideo = ['mp4', 'webm', 'mov', 'ogg'].includes(ext);
 
         return new Response(Bun.file(publicPath), {
           headers: {
-            'Content-Type': isVideo ? `video/${ext}` : '',
-            'Content-Encoding': 'identity', // prevent proxy compression
+            'Content-Type': contentType,
+            // Only disable compression for videos — already compressed formats
+            ...(isVideo && { 'Content-Encoding': 'identity' }),
             'Cache-Control': 'public, max-age=31536000',
           },
         });
       }
 
+      // Serve built client assets from /dist/client
       const staticPath = join(process.cwd(), 'dist/client', url.pathname);
       if (existsSync(staticPath) && !url.pathname.endsWith('/')) {
         return new Response(Bun.file(staticPath));
@@ -72,6 +101,7 @@ export default {
         getLoadContext: () => hydrogenContext,
       });
 
+      // ✅ Response is returned as-is — do NOT touch Content-Encoding here
       const response = await handleRequest(request);
 
       if (hydrogenContext.session.isPending) {
