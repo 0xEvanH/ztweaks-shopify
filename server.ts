@@ -1,21 +1,14 @@
 import * as serverBuild from 'virtual:react-router/server-build';
 import { createRequestHandler, storefrontRedirect } from '@shopify/hydrogen';
 import { createHydrogenRouterContext } from '~/lib/context';
-let existsSync: typeof import('fs').existsSync;
-let join: typeof import('path').join;
-
-try {
-  ({ existsSync } = await import('fs'));
-  ({ join } = await import('path'));
-} catch {
-  // MiniOxygen / edge runtime fallback
-  existsSync = () => false;
-  join = (...parts: string[]) => parts.join('/');
-}
+import { existsSync } from 'fs';
+import { join } from 'path';
 
 declare const Bun: {
   file(staticPath: string): BodyInit | null | undefined; env: Record<string, string>
 };
+
+const isBun = typeof Bun !== 'undefined';
 
 const STATIC_EXTENSIONS = new Set([
   'otf', 'ttf', 'woff', 'woff2',
@@ -75,6 +68,7 @@ export default {
 
       const url = new URL(request.url);
 
+      if (isBun) {
       // Serve files from /public (videos, images, fonts, etc.)
       const publicPath = join(process.cwd(), 'public', url.pathname);
       if (existsSync(publicPath) && !url.pathname.endsWith('/')) {
@@ -91,7 +85,7 @@ export default {
           },
         });
       }
-
+    }
 
       // Serve built client assets from /dist/client
       const staticPath = join(process.cwd(), 'dist/client', url.pathname);
@@ -120,7 +114,7 @@ export default {
         try {
           const buffer = await response.arrayBuffer();
           const bytes = new Uint8Array(buffer);
-
+          
           // Check gzip magic bytes before attempting decompress
           if (bytes[0] === 0x1f && bytes[1] === 0x8b) {
             const { gunzipSync } = await import('zlib');
