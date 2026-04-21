@@ -1,15 +1,15 @@
+// app/components/ProductImage.tsx
 import type {ProductVariantFragment} from 'storefrontapi.generated';
 import {Image} from '@shopify/hydrogen';
 
 export function ProductImage({
   image,
-  videoPath, // 👈 Add the videoPath prop
+  videoPath, // 👈 1. Accept the new prop
 }: {
   image: ProductVariantFragment['image'];
-  videoPath?: string; // 👈 Add the type
+  videoPath?: string; // 👈 2. Add the type
 }) {
-  console.log(videoPath)
-  // 1. Check for video first
+  // 3. Priority logic: If a video exists, show it instead of the image
   if (videoPath) {
     return (
       <div className="product-image">
@@ -25,7 +25,6 @@ export function ProductImage({
     );
   }
 
-  // 2. Fallback to image logic
   if (!image) {
     return <div className="product-image" />;
   }

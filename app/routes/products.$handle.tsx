@@ -1,4 +1,4 @@
-import {useLoaderData} from 'react-router';
+import { useLoaderData } from 'react-router';
 import {
   getSelectedProductOptions,
   Analytics,
@@ -7,46 +7,46 @@ import {
   getAdjacentAndFirstAvailableVariants,
   useSelectedOptionInUrlParam,
 } from '@shopify/hydrogen';
-import {ProductPrice} from '~/components/ProductPrice';
-import {ProductImage} from '~/components/ProductImage';
-import {ProductForm} from '~/components/ProductForm';
-import {redirectIfHandleIsLocalized} from '~/lib/redirect';
-import type {Route} from './+types/products.$handle';
+import { ProductPrice } from '~/components/ProductPrice';
+import { ProductImage } from '~/components/ProductImage';
+import { ProductForm } from '~/components/ProductForm';
+import { redirectIfHandleIsLocalized } from '~/lib/redirect';
+import type { Route } from './+types/products.$handle';
 
-export const meta: Route.MetaFunction = ({data}) => {
+export const meta: Route.MetaFunction = ({ data }) => {
   return [
-    {title: `Hydrogen | ${data?.product.title ?? ''}`},
-    {rel: 'canonical', href: `/products/${data?.product.handle}`},
+    { title: `Hydrogen | ${data?.product.title ?? ''}` },
+    { rel: 'canonical', href: `/products/${data?.product.handle}` },
   ];
 };
 
 export async function loader(args: Route.LoaderArgs) {
   const deferredData = loadDeferredData(args);
   const criticalData = await loadCriticalData(args);
-  return {...deferredData, ...criticalData};
+  return { ...deferredData, ...criticalData };
 }
 
-async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
-  const {handle} = params;
-  const {storefront} = context;
+async function loadCriticalData({ context, params, request }: Route.LoaderArgs) {
+  const { handle } = params;
+  const { storefront } = context;
 
   if (!handle) {
     throw new Error('Expected product handle to be defined');
   }
 
-  const [{product}] = await Promise.all([
+  const [{ product }] = await Promise.all([
     storefront.query(PRODUCT_QUERY, {
-      variables: {handle, selectedOptions: getSelectedProductOptions(request)},
+      variables: { handle, selectedOptions: getSelectedProductOptions(request) },
     }),
   ]);
 
   if (!product?.id) {
-    throw new Response(null, {status: 404});
+    throw new Response(null, { status: 404 });
   }
 
-  redirectIfHandleIsLocalized(request, {handle, data: product});
+  redirectIfHandleIsLocalized(request, { handle, data: product });
 
-  return {product};
+  return { product };
 }
 
 function loadDeferredData(_args: Route.LoaderArgs) {
@@ -54,9 +54,7 @@ function loadDeferredData(_args: Route.LoaderArgs) {
 }
 
 export default function Product() {
-  const {product} = useLoaderData<typeof loader>();
-
-  console.log('Metafield Value:', product.video?.value);
+  const { product } = useLoaderData<typeof loader>();
 
   const selectedVariant = useOptimisticVariant(
     product.selectedOrFirstAvailableVariant,
@@ -72,14 +70,17 @@ export default function Product() {
     selectedOrFirstAvailableVariant: selectedVariant,
   });
 
-  const {title, descriptionHtml} = product;
+  const { title, descriptionHtml } = product;
 
   return (
     <div className="product">
-      <ProductImage 
-        image={selectedVariant?.image} 
-        videoPath={videoPath} 
+      <ProductImage
+        image={selectedVariant?.image}
+        videoPath={videoPath}
       />
+      <div style={{ background: 'red', color: 'white', padding: '10px', margin: '10px 0' }}>
+        DEBUG METADA: {product.video ? JSON.stringify(product.video) : 'VIDEO IS UNDEFINED'}
+      </div>
       <div className="product-main">
         <h1>{title}</h1>
         <ProductPrice
@@ -97,7 +98,7 @@ export default function Product() {
           <strong>Description</strong>
         </p>
         <br />
-        <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
+        <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
         <br />
       </div>
       <Analytics.ProductView
