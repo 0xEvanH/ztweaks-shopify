@@ -56,6 +56,8 @@ function loadDeferredData(_args: Route.LoaderArgs) {
 export default function Product() {
   const {product} = useLoaderData<typeof loader>();
 
+  console.log('Metafield Value:', product.video?.value);
+
   const selectedVariant = useOptimisticVariant(
     product.selectedOrFirstAvailableVariant,
     getAdjacentAndFirstAvailableVariants(product),
