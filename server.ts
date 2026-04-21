@@ -39,6 +39,10 @@ export default {
 
       // Serve static assets from dist/client
       const url = new URL(request.url);
+      const staticPath = join(process.cwd(), 'dist/client', url.pathname);
+      if (existsSync(staticPath) && !url.pathname.endsWith('/')) {
+        return new Response(Bun.file(staticPath));
+      }
       // Check dist/client first, then public/
       const distPath = join(process.cwd(), 'dist/client', url.pathname);
       const publicPath = join(process.cwd(), 'public', url.pathname);
