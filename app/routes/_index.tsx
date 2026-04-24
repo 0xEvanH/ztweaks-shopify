@@ -176,7 +176,7 @@ function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.85 }}
-          className="flex gap-10 items-center justify-center"
+          className="flex gap-10 items-center justify-center mb-16"
         >
           {heroStats.map((s, i) => (
             <div key={i} className="flex flex-col items-center">
@@ -184,6 +184,46 @@ function HeroSection() {
               <span className="font-mono text-[9px] tracking-[0.18em] text-white/30 uppercase mt-0.5">{s.label}</span>
             </div>
           ))}
+        </motion.div>
+
+        {/* Video frame */}
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="relative w-full max-w-4xl mx-auto"
+        >
+          <div className="absolute -inset-6 rounded-3xl bg-white/[0.012] blur-2xl pointer-events-none" />
+          <div className="relative rounded-2xl overflow-hidden border border-white/8 bg-black/60 backdrop-blur-sm shadow-[0_40px_120px_rgba(0,0,0,0.8)]">
+            {/* Top bar */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/6 bg-white/2">
+              <div className="flex gap-1.5">
+                {['#ff5f57', '#febc2e', '#28c840'].map((c, i) => (
+                  <div key={i} className="w-2.5 h-2.5 rounded-full" style={{background: c, opacity: 0.6}} />
+                ))}
+              </div>
+              <div className="font-mono text-[10px] tracking-widest text-white/20">ZTWEAKS</div>
+              <div className="w-12" />
+            </div>
+            {/* Video */}
+            <div className="relative aspect-video bg-black overflow-hidden">
+              <video src="/ZulsVid.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover" />
+              <div className="absolute inset-0 pointer-events-none" style={{backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px)'}} />
+            </div>
+            {/* Bottom bar */}
+            <div className="grid grid-cols-3 divide-x divide-white/6 border-t border-white/6">
+              {[
+                {v: 'Pro Tweaks', l: 'Optimization'},
+                {v: 'Zero Delay', l: 'Network'},
+                {v: 'Macro Pro', l: 'Automation'},
+              ].map((s, i) => (
+                <div key={i} className="px-5 py-3.5 text-center bg-white/[0.01]">
+                  <div className="font-mono text-[8px] tracking-[0.18em] text-white/25 uppercase mb-0.5">{s.l}</div>
+                  <div className="font-display text-[18px] tracking-wider text-white">{s.v}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
