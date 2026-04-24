@@ -4,6 +4,13 @@ import { FaDiscord } from 'react-icons/fa';
 const nav = [
   {label: 'Home', to: '/'},
   {label: 'Products', to: '/products'},
+  {label: 'About', to: '/about'},
+  {label: 'Contact', to: '/contact'},
+];
+
+const resources = [
+  {label: 'Documentation', to: '/docs'},
+  {label: 'FAQ', to: '/faq'},
 ];
 
 const legal = [
@@ -17,7 +24,7 @@ export default function Footer() {
     <footer className="relative z-10 mt-16">
       <div className="h-px bg-linear-to-r from-transparent via-white/8 to-transparent" />
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-14">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-12">
 
           {/* Brand */}
           <div className="col-span-2 md:col-span-2">
@@ -45,6 +52,20 @@ export default function Footer() {
             <div className="font-mono text-[9px] tracking-[0.18em] text-white/25 uppercase mb-4">Pages</div>
             <ul className="flex flex-col gap-3">
               {nav.map(({label, to}) => (
+                <li key={to}>
+                  <NavLink to={to} className="font-mono text-[10px] tracking-widest text-white/35 hover:text-white/65 uppercase transition-colors duration-200">
+                    {label}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Resources */}
+          <div>
+            <div className="font-mono text-[9px] tracking-[0.18em] text-white/25 uppercase mb-4">Resources</div>
+            <ul className="flex flex-col gap-3">
+              {resources.map(({label, to}) => (
                 <li key={to}>
                   <NavLink to={to} className="font-mono text-[10px] tracking-widest text-white/35 hover:text-white/65 uppercase transition-colors duration-200">
                     {label}

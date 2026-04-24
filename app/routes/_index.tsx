@@ -17,8 +17,7 @@ export const meta = () => [
 ];
 
 const heroStats = [
-  { val: '2,000+', label: 'Active Users' },
-  { val: '50k+',   label: 'Downloads' },
+  { val: '5,000+', label: 'Active Users' },
   { val: '99.9%',  label: 'Satisfaction' },
   { val: '24/7',   label: 'Support' },
 ];
@@ -68,10 +67,10 @@ const tickerItems = [
 ];
 
 const bottomStats = [
-  { val: '2K+',   label: 'Active Users',       desc: 'and growing daily' },
-  { val: '340ms', label: 'Avg. Latency Cut',    desc: 'across all products' },
-  { val: '6',     label: 'Products',            desc: 'ready out of the box' },
-  { val: '+50fps',label: 'Avg. Frame Rate Gain',desc: 'using our products' },
+  { val: '5K+',    label: 'Active Users',       desc: 'and growing daily' },
+  { val: '340ms',  label: 'Avg. Latency Cut',   desc: 'across all products' },
+  { val: '6',      label: 'Products',           desc: 'ready out of the box' },
+  { val: '+150fps',label: 'Avg. Frame Rate Gain',desc: 'using our products' },
 ];
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
@@ -111,7 +110,7 @@ function HeroSection() {
             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white/50" />
           </span>
           <span className="font-mono text-[10px] tracking-[0.15em] text-white/40 uppercase">
-            2,000+ Active Users
+            5,000+ Active Users
           </span>
         </motion.div>
 

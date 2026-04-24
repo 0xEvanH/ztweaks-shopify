@@ -239,22 +239,8 @@ function ProductThumb({
   label: string;
   small?: boolean;
 }) {
-  const [playing, setPlaying] = useState(false);
   const [videoErrored, setVideoErrored] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const showVideo = video && !videoErrored;
-
-  const handlePlay = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (!videoRef.current) return;
-    if (playing) {
-      videoRef.current.pause();
-      setPlaying(false);
-    } else {
-      videoRef.current.play();
-      setPlaying(true);
-    }
-  };
 
   return (
     <div className="relative w-full h-full bg-black/40 overflow-hidden">
@@ -263,7 +249,6 @@ function ProductThumb({
 
       {showVideo ? (
         <video
-          ref={videoRef}
           src={video}
           className="absolute inset-0 w-full h-full object-cover"
           loop
@@ -271,8 +256,6 @@ function ProductThumb({
           playsInline
           autoPlay
           onError={() => setVideoErrored(true)}
-          onPlay={() => setPlaying(true)}
-          onPause={() => setPlaying(false)}
         />
       ) : image ? (
         <img src={image} alt={label} className="absolute inset-0 w-full h-full object-cover opacity-60" />
@@ -280,35 +263,12 @@ function ProductThumb({
         <FallbackThumb id={id} />
       )}
 
-      <div className="absolute inset-0 z-10 pointer-events-none transition-opacity duration-500"
+      <div className="absolute inset-0 z-10 pointer-events-none"
         style={{
           background: small
             ? 'linear-gradient(to top,rgba(0,0,0,0.65) 0%,transparent 60%)'
             : 'linear-gradient(to right,transparent 40%,rgba(0,0,0,0.6) 100%)',
-          opacity: playing ? 0.4 : 1,
         }} />
-
-      {showVideo && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center">
-          <button
-            onClick={handlePlay}
-            className={`rounded-full border border-white/12 flex items-center justify-center backdrop-blur-sm transition-all duration-300 hover:bg-white/10 group ${small ? 'w-11 h-11' : 'w-12 h-12'}`}
-            style={{background: 'rgba(255,255,255,0.06)'}}>
-            {playing ? (
-              <div className="flex gap-0.75">
-                <div className="w-0.75 h-3.5 bg-white/70 rounded-sm" />
-                <div className="w-0.75 h-3.5 bg-white/70 rounded-sm" />
-              </div>
-            ) : (
-              <div className="border-t-transparent border-b-transparent border-l-white/70 ml-0.5"
-                style={small
-                  ? {width:0,height:0,borderTopWidth:7,borderBottomWidth:7,borderLeftWidth:12,borderStyle:'solid',borderTopColor:'transparent',borderBottomColor:'transparent'}
-                  : {width:0,height:0,borderTopWidth:8,borderBottomWidth:8,borderLeftWidth:14,borderStyle:'solid',borderTopColor:'transparent',borderBottomColor:'transparent'}
-                } />
-            )}
-          </button>
-        </div>
-      )}
 
       <div className="absolute bottom-3 left-4 z-20 font-mono text-[9px] tracking-widest text-white/25 uppercase">
         {label}
@@ -325,105 +285,63 @@ export default function Products() {
   return (
     <>
       {/* Header */}
-      <section className="pt-36 pb-12 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="text-center">
-          <motion.div initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} transition={{duration:0.5}}
-            className="font-mono text-[10px] tracking-[0.2em] text-white/30 uppercase mb-4">
-            // our arsenal
-          </motion.div>
-          <motion.h1 initial={{opacity:0,y:24}} animate={{opacity:1,y:0}}
-            transition={{duration:0.7,delay:0.06,ease:[0.22,1,0.36,1]}}
-            className="font-display text-[clamp(56px,9vw,110px)] leading-[0.88] tracking-[0.02em] text-white mb-6">
-            THE FULL<br /><span className="text-white/18">LOADOUT</span>
-          </motion.h1>
-          <motion.p initial={{opacity:0,y:12}} animate={{opacity:1,y:0}} transition={{duration:0.6,delay:0.18}}
-            className="text-white/35 text-[14px] font-light max-w-md leading-relaxed mx-auto">
-            Click any product to go straight to checkout. Every tool ships with a 30-day satisfaction guarantee.
-          </motion.p>
-          {source === 'static' && (
-            <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/4 border border-white/6">
-              <span className="w-1.5 h-1.5 rounded-full bg-yellow-400/60" />
-              <span className="font-mono text-[9px] tracking-widest text-white/25 uppercase">Preview mode — connect Shopify to go live</span>
-            </div>
-          )}
-        </div>
+      <section className="pt-36 pb-8 px-6 md:px-12 max-w-7xl mx-auto">
+        <motion.div initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} transition={{duration:0.5}}
+          className="font-mono text-[11px] tracking-[0.2em] text-white/40 uppercase mb-2">
+          our products
+        </motion.div>
+        {source === 'static' && (
+          <div className="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/4 border border-white/6">
+            <span className="w-1.5 h-1.5 rounded-full bg-yellow-400/60" />
+            <span className="font-mono text-[9px] tracking-widest text-white/25 uppercase">Preview mode — connect Shopify to go live</span>
+          </div>
+        )}
       </section>
 
       {/* Grid */}
       <section ref={ref} className="pb-28 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {products.map((p, i) => (
             <motion.div key={p.id}
               initial={{opacity:0,y:28}} animate={inView ? {opacity:1,y:0} : {}}
-              transition={{duration:0.65,delay:i*0.09,ease:[0.22,1,0.36,1]}}
-              className={p.featured ? 'md:col-span-2' : ''}>
+              transition={{duration:0.65,delay:i*0.09,ease:[0.22,1,0.36,1]}}>
 
               <a href={p.checkoutUrl} className="block group">
-                <div className={`glass-card overflow-hidden ${p.featured ? 'border-white/12' : ''}`}>
-
-                  {p.featured ? (
-                    <div className="grid md:grid-cols-2">
-                      <div className="relative aspect-video md:aspect-auto min-h-50">
-                        {p.badge && (
-                          <div className="absolute top-4 left-4 z-30">
-                            <span className="font-mono text-[9px] tracking-[0.15em] text-white/60 uppercase px-3 py-1.5 bg-white/8 border border-white/12 rounded-full">
-                              {p.badge}
-                            </span>
-                          </div>
-                        )}
-                        <ProductThumb id={p.id} video={p.video} image={p.image} label="Full Walkthrough" small={false} />
+                <div className="glass-card overflow-hidden">
+                  <div className="relative aspect-video">
+                    {p.badge && (
+                      <div className="absolute top-4 left-4 z-30">
+                        <span className="font-mono text-[9px] tracking-[0.15em] text-white/60 uppercase px-3 py-1.5 bg-white/8 border border-white/12 rounded-full">
+                          {p.badge}
+                        </span>
                       </div>
-                      <div className="p-8 flex flex-col justify-center">
-                        <div className="font-mono text-[9px] tracking-[0.18em] text-white/30 uppercase mb-3">{p.cat}</div>
-                        <div className="font-display text-[38px] tracking-wider text-white mb-4">{p.name}</div>
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {p.tags.map((t) => (
-                            <span key={t} className="px-2.5 py-1 bg-white/4 border border-white/7 rounded-md font-mono text-[9px] tracking-widest text-white/30 uppercase">{t}</span>
-                          ))}
+                    )}
+                    <ProductThumb id={p.id} video={p.video} image={p.image} label={p.name} small={true} />
+                  </div>
+                  <div className="p-6">
+                    <div className="font-mono text-[9px] tracking-[0.18em] text-white/30 uppercase mb-2">{p.cat}</div>
+                    <div className="font-display text-[26px] tracking-wider text-white mb-3">{p.name}</div>
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {p.tags.map((t) => (
+                        <span key={t} className="px-2 py-0.5 bg-white/4 border border-white/6 rounded font-mono text-[9px] tracking-widest text-white/[0.28] uppercase">{t}</span>
+                      ))}
+                    </div>
+                    <p className="text-[12px] text-white/35 leading-relaxed font-light mb-5">{p.desc}</p>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        {p.originalPrice && (
+                          <div className="font-mono text-[10px] text-white/25 line-through tracking-wider mb-1">{p.originalPrice}</div>
+                        )}
+                        <div className="font-display text-[24px] tracking-wider text-white">
+                          {p.price}
+                          <span className="font-mono text-[9px] text-white/30 tracking-widest ml-1.5">/{p.period}</span>
                         </div>
-                        <p className="text-[13px] text-white/38 leading-relaxed font-light mb-6">{p.desc}</p>
-                        <div className="flex items-end justify-between">
-                          <div>
-                            {p.originalPrice && (
-                              <div className="font-mono text-[10px] text-white/25 line-through tracking-wider mb-1">{p.originalPrice} separately</div>
-                            )}
-                            <div className="font-display text-[36px] tracking-wider text-white leading-none">
-                              {p.price}
-                              <span className="font-mono text-[11px] text-white/30 tracking-widest ml-2">/{p.period}</span>
-                            </div>
-                          </div>
-                          <div className="px-6 py-3 bg-white text-z-black text-[12px] font-semibold tracking-wider rounded-xl group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)] transition-all duration-300 group-hover:-translate-y-0.5">
-                            {p.available ? 'Get Bundle →' : 'Sold Out'}
-                          </div>
-                        </div>
+                      </div>
+                      <div className="px-4 py-2 bg-white/5 border border-white/10 text-white/75 text-[11px] font-semibold tracking-wider rounded-lg group-hover:bg-white group-hover:text-z-black group-hover:border-transparent transition-all duration-300">
+                        {p.available ? 'Purchase →' : 'Sold Out'}
                       </div>
                     </div>
-                  ) : (
-                    <>
-                      <div className="relative aspect-video">
-                        <ProductThumb id={p.id} video={p.video} image={p.image} label="Preview Available" small={true} />
-                      </div>
-                      <div className="p-6">
-                        <div className="font-mono text-[9px] tracking-[0.18em] text-white/30 uppercase mb-2">{p.cat}</div>
-                        <div className="font-display text-[26px] tracking-wider text-white mb-3">{p.name}</div>
-                        <div className="flex flex-wrap gap-1.5 mb-3">
-                          {p.tags.map((t) => (
-                            <span key={t} className="px-2 py-0.5 bg-white/4 border border-white/6 rounded font-mono text-[9px] tracking-widest text-white/[0.28] uppercase">{t}</span>
-                          ))}
-                        </div>
-                        <p className="text-[12px] text-white/35 leading-relaxed font-light mb-5">{p.desc}</p>
-                        <div className="flex items-center justify-between">
-                          <div className="font-display text-[24px] tracking-wider text-white">
-                            {p.price}
-                            <span className="font-mono text-[9px] text-white/30 tracking-widest ml-1.5">/{p.period}</span>
-                          </div>
-                          <div className="px-4 py-2 bg-white/5 border border-white/10 text-white/75 text-[11px] font-semibold tracking-wider rounded-lg group-hover:bg-white group-hover:text-z-black group-hover:border-transparent transition-all duration-300">
-                            {p.available ? 'Get Access →' : 'Sold Out'}
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  )}
+                  </div>
                 </div>
               </a>
             </motion.div>
