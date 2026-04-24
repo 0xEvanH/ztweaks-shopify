@@ -1,4 +1,5 @@
 import {Analytics, getShopAnalytics, useNonce} from '@shopify/hydrogen';
+import {useEffect} from 'react';
 import {
   Outlet,
   useRouteError,
@@ -129,17 +130,6 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <link rel="stylesheet" href={appStyles} />
         <Meta />
         <Links />
-        {/* UpPromote affiliate tracking */}
-        <script
-          nonce={nonce}
-          dangerouslySetInnerHTML={{__html: `
-            window.upDataLayer = window.upDataLayer || [];
-            function upTag() { return upDataLayer.push(arguments); }
-            upTag('config', 'myshopify_domain', 'v1tw14-5z.myshopify.com');
-            upTag('config', 'linker', ['v1tw14-5z.myshopify.com', 'ztweaksshop.evhsync.com']);
-          `}}
-        />
-        <script nonce={nonce} async src="https://static-pixel.uppromote.com/collect/v1/collect.js" />
       </head>
       <body style={{backgroundColor: '#050505'}}>
         {children}
@@ -148,6 +138,21 @@ export function Layout({children}: {children?: React.ReactNode}) {
       </body>
     </html>
   );
+}
+
+function UpPromote() {
+  useEffect(() => {
+    (window as any).upDataLayer = (window as any).upDataLayer || [];
+    const upTag = (...args: any[]) => (window as any).upDataLayer.push(args);
+    upTag('config', 'myshopify_domain', 'v1tw14-5z.myshopify.com');
+    upTag('config', 'linker', ['v1tw14-5z.myshopify.com', 'ztweaksshop.evhsync.com']);
+
+    const script = document.createElement('script');
+    script.src = 'https://static-pixel.uppromote.com/collect/v1/collect.js';
+    script.async = true;
+    document.head.appendChild(script);
+  }, []);
+  return null;
 }
 
 export default function App() {
@@ -163,6 +168,7 @@ export default function App() {
       shop={data.shop}
       consent={data.consent}
     >
+      <UpPromote />
       <PageLayout {...data}>
         <Outlet />
       </PageLayout>
