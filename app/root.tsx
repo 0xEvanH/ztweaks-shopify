@@ -142,13 +142,8 @@ export function Layout({children}: {children?: React.ReactNode}) {
 
 function UpPromote() {
   useEffect(() => {
-    (window as any).upDataLayer = (window as any).upDataLayer || [];
-    const upTag = (...args: any[]) => (window as any).upDataLayer.push(args);
-    upTag('config', 'myshopify_domain', 'v1tw14-5z.myshopify.com');
-    upTag('config', 'linker', ['v1tw14-5z.myshopify.com', 'ztweaksshop.evhsync.com']);
-
     const script = document.createElement('script');
-    script.src = 'https://static-pixel.uppromote.com/collect/v1/collect.js';
+    script.src = 'https://pixel.uppromote.com/collect/v1/collect?shop=v1tw14-5z.myshopify.com';
     script.async = true;
     document.head.appendChild(script);
   }, []);
