@@ -21,6 +21,15 @@ export default async function handleRequest(
     },
     scriptSrc: [
       "'self'",
+      'https://cdn.shopify.com',
+      'https://pixel.uppromote.com',
+    ],
+    connectSrc: [
+      "'self'",
+      'https://cdn.shopify.com/',
+      'https://monorail-edge.shopifysvc.com',
+      `https://${context.env.PUBLIC_STORE_DOMAIN}`,
+      `https://${context.env.PUBLIC_CHECKOUT_DOMAIN}`,
       'https://pixel.uppromote.com',
     ],
     styleSrc: [
