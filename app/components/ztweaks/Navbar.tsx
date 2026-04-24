@@ -1,12 +1,14 @@
 import {useState, useEffect} from 'react';
 import {NavLink, useLocation} from 'react-router';
 import {motion, AnimatePresence} from 'motion/react';
-import {IconHome, IconBox} from '~/components/ztweaks/Icons';
+import {IconHome, IconBox, IconUser, IconMail} from '~/components/ztweaks/Icons';
 import { FaDiscord } from 'react-icons/fa';
 
 const links = [
   {label: 'Home',     to: '/',         icon: <IconHome filled={false} />,  iconActive: <IconHome filled={true} />},
   {label: 'Products', to: '/products', icon: <IconBox  filled={false} />,  iconActive: <IconBox  filled={true} />},
+  {label: 'About',    to: '/about',    icon: <IconUser filled={false} />,  iconActive: <IconUser filled={true} />},
+  {label: 'Contact',  to: '/contact',  icon: <IconMail filled={false} />,  iconActive: <IconMail filled={true} />},
 ];
 
 export default function Navbar() {
