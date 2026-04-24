@@ -1,5 +1,4 @@
 import {Analytics, getShopAnalytics, useNonce} from '@shopify/hydrogen';
-import {useEffect} from 'react';
 import {
   Outlet,
   useRouteError,
@@ -130,6 +129,7 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <link rel="stylesheet" href={appStyles} />
         <Meta />
         <Links />
+        <script async src="https://pixel.uppromote.com/collect/v1/collect?shop=v1tw14-5z.myshopify.com" />
       </head>
       <body style={{backgroundColor: '#050505'}}>
         {children}
@@ -140,15 +140,6 @@ export function Layout({children}: {children?: React.ReactNode}) {
   );
 }
 
-function UpPromote() {
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://pixel.uppromote.com/collect/v1/collect?shop=v1tw14-5z.myshopify.com';
-    script.async = true;
-    document.head.appendChild(script);
-  }, []);
-  return null;
-}
 
 export default function App() {
   const data = useRouteLoaderData<RootLoader>('root');
@@ -163,7 +154,6 @@ export default function App() {
       shop={data.shop}
       consent={data.consent}
     >
-      <UpPromote />
       <PageLayout {...data}>
         <Outlet />
       </PageLayout>
