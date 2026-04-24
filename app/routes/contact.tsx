@@ -3,8 +3,10 @@ import {FaDiscord} from 'react-icons/fa';
 import {RiMailLine, RiTimeLine, RiShieldCheckLine} from 'react-icons/ri';
 
 export const meta = () => [
-  {title: 'Contact — ZTweaks'},
+  {title: 'Contact | ZTweaks'},
   {name: 'description', content: 'Get in touch with the ZTweaks team for support or general inquiries.'},
+  {property: 'og:title', content: 'Contact | ZTweaks'},
+  {property: 'og:description', content: 'Get in touch with the ZTweaks team for support or general inquiries.'},
 ];
 
 const channels = [
@@ -21,8 +23,8 @@ const channels = [
     icon: FaDiscord,
     title: 'Discord Community',
     desc: 'Fastest support channel. Get help from the team and 5,000+ community members in real time.',
-    action: 'discord.gg/ztweaks',
-    href: 'https://discord.gg',
+    action: 'discord.gg/WjAZH8KUWd',
+    href: 'https://discord.gg/WjAZH8KUWd',
     label: 'Join Discord',
     primary: false,
   },

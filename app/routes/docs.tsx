@@ -4,8 +4,10 @@ import {Link} from 'react-router';
 import {RiCheckLine, RiAlertLine} from 'react-icons/ri';
 
 export const meta = () => [
-  {title: 'Docs — ZTweaks'},
+  {title: 'Docs | ZTweaks'},
   {name: 'description', content: 'Installation guides, product references, and setup instructions for all ZTweaks products.'},
+  {property: 'og:title', content: 'Docs | ZTweaks'},
+  {property: 'og:description', content: 'Installation guides, product references, and setup instructions for all ZTweaks products.'},
 ];
 
 const sections = [
@@ -25,7 +27,7 @@ const products = [
       'Run ZTweaks Core installer as Administrator',
       'Select your hardware profile (CPU tier, GPU vendor)',
       'Choose optimization level: Conservative, Balanced, or Aggressive',
-      'Click Apply — a restore point is created automatically before any change',
+      'Click Apply , a restore point is created automatically before any change',
       'Reboot when prompted',
     ],
   },
@@ -49,7 +51,7 @@ const products = [
       'Run Network Stack+ as Administrator',
       'Click "Detect Connection" to auto-identify your ISP type',
       'Select your connection profile or configure manually',
-      'Apply — TCP/IP stack, DNS, and buffer settings are updated instantly',
+      'Apply , TCP/IP stack, DNS, and buffer settings are updated instantly',
       'Run the built-in latency test to confirm improvement',
     ],
   },
@@ -173,7 +175,7 @@ export default function Docs() {
                   <ol className="space-y-5">
                     {[
                       {step: '01', title: 'Check your email', desc: 'After purchase you\'ll receive a license key and download link. Check your spam folder if it doesn\'t arrive within 5 minutes.'},
-                      {step: '02', title: 'Download the installer', desc: 'Click the download link in your email. Your browser may flag the file — this is expected for system-level tools. Click "Keep" or "Allow" to proceed.'},
+                      {step: '02', title: 'Download the installer', desc: 'Click the download link in your email. Your browser may flag the file , this is expected for system-level tools. Click "Keep" or "Allow" to proceed.'},
                       {step: '03', title: 'Run as Administrator', desc: 'Right-click the installer and select "Run as administrator". This is required to apply system-level optimizations.'},
                       {step: '04', title: 'Enter your license key', desc: 'Paste your license key when prompted. Each key can be activated on up to 2 machines simultaneously.'},
                       {step: '05', title: 'Apply and reboot', desc: 'Select your preferred optimization profile and click Apply. A system restore point is created automatically. Reboot when prompted to finalize all changes.'},
@@ -222,13 +224,13 @@ export default function Docs() {
                   </p>
                   <div className="space-y-5">
                     <div>
-                      <div className="text-[13px] font-semibold text-white/80 mb-2">Option 1 — One-Click Rollback (recommended)</div>
+                      <div className="text-[13px] font-semibold text-white/80 mb-2">Option 1 , One-Click Rollback (recommended)</div>
                       <p className="text-[13px] text-white/38 font-light leading-relaxed">Open the ZTweaks app, go to Settings → Restore, and click "Roll Back All Changes". This reverts every modification made by ZTweaks and leaves the rest of your system untouched.</p>
                     </div>
                     <div className="h-px bg-white/5" />
                     <div>
-                      <div className="text-[13px] font-semibold text-white/80 mb-2">Option 2 — Windows System Restore</div>
-                      <p className="text-[13px] text-white/38 font-light leading-relaxed">Search for "Create a restore point" in Windows, click "System Restore", and select the restore point labelled "ZTweaks — [date]". This restores your entire OS to the pre-ZTweaks state.</p>
+                      <div className="text-[13px] font-semibold text-white/80 mb-2">Option 2 , Windows System Restore</div>
+                      <p className="text-[13px] text-white/38 font-light leading-relaxed">Search for "Create a restore point" in Windows, click "System Restore", and select the restore point labelled "ZTweaks , [date]". This restores your entire OS to the pre-ZTweaks state.</p>
                     </div>
                     <div className="h-px bg-white/5" />
                     <div>
@@ -261,15 +263,15 @@ export default function Docs() {
                   </p>
                   <div className="space-y-4">
                     <div className="p-5 rounded-xl bg-white/2 border border-white/5">
-                      <div className="text-[13px] font-semibold text-white/80 mb-1">Discord — #support channel</div>
+                      <div className="text-[13px] font-semibold text-white/80 mb-1">Discord , #support channel</div>
                       <p className="text-[12px] text-white/35 font-light leading-snug mb-3">Typical response within 1–3 hours. Include your OS version, product name, and a description of the issue.</p>
-                      <a href="https://discord.gg" target="_blank" rel="noreferrer"
+                      <a href="https://discord.gg/WjAZH8KUWd" target="_blank" rel="noreferrer"
                         className="inline-flex items-center gap-2 px-4 py-2 bg-[#5865F2] hover:bg-[#6875f5] text-white text-[11px] font-semibold tracking-wider rounded-lg transition-all duration-300">
                         Open Discord →
                       </a>
                     </div>
                     <div className="p-5 rounded-xl bg-white/2 border border-white/5">
-                      <div className="text-[13px] font-semibold text-white/80 mb-1">Email — hello@ztweaks.com</div>
+                      <div className="text-[13px] font-semibold text-white/80 mb-1">Email , hello@ztweaks.com</div>
                       <p className="text-[12px] text-white/35 font-light leading-snug mb-3">Response within 24 hours on business days. Include your order number for billing issues.</p>
                       <a href="mailto:hello@ztweaks.com"
                         className="inline-flex items-center gap-2 px-4 py-2 bg-white text-black text-[11px] font-semibold tracking-wider rounded-lg transition-all duration-300">

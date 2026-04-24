@@ -1,4 +1,4 @@
-// Inline SVG icons — no external package, safe in Oxygen SSR worker
+// Inline SVG icons - no external package, safe in Oxygen SSR worker
 
 export function IconHome({size = 14, filled = false}) {
   return filled ? (

@@ -17,6 +17,16 @@ import appStyles from '~/styles/app.css?url';
 import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/PageLayout';
 
+export const meta = () => [
+  {property: 'og:type', content: 'website'},
+  {property: 'og:site_name', content: 'ZTweaks'},
+  {property: 'og:image', content: '/og-image.png'},
+  {name: 'twitter:card', content: 'summary_large_image'},
+  {name: 'twitter:site', content: '@ztweaks'},
+  {name: 'twitter:image', content: '/og-image.png'},
+  {name: 'theme-color', content: '#050505'},
+];
+
 export type RootLoader = typeof loader;
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({

@@ -4,8 +4,10 @@ import {motion, useInView} from 'framer-motion';
 import type {Route} from './+types/products';
 
 export const meta: Route.MetaFunction = () => [
-  {title: 'Products — ZTweaks'},
-  {name: 'description', content: 'Browse the full ZTweaks product lineup.'},
+  {title: 'Products | ZTweaks'},
+  {name: 'description', content: 'Browse the full ZTweaks product lineup. Optimization suites, macro packs, and network tuning for competitive players.'},
+  {property: 'og:title', content: 'Products | ZTweaks'},
+  {property: 'og:description', content: 'Browse the full ZTweaks product lineup. Optimization suites, macro packs, and network tuning for competitive players.'},
 ];
 
 const PRODUCTS_QUERY = `#graphql
@@ -152,7 +154,7 @@ const STATIC_PRODUCTS: ShapedProduct[] = [
     id: 'bundle',
     cat: 'Complete Bundle',
     name: 'Elite Bundle',
-    desc: 'Everything in ZTweaks — Core optimizations, macro library, network tuning, GPU pipeline, and direct Discord support with our engineers. For life.',
+    desc: 'Everything in ZTweaks: Core optimizations, macro library, network tuning, GPU pipeline, and direct Discord support with our engineers. For life.',
     price: '$39',
     period: 'lifetime',
     tags: ['All Products', 'Priority Support', 'Lifetime Updates'],
@@ -293,7 +295,7 @@ export default function Products() {
         {source === 'static' && (
           <div className="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/4 border border-white/6">
             <span className="w-1.5 h-1.5 rounded-full bg-yellow-400/60" />
-            <span className="font-mono text-[9px] tracking-widest text-white/25 uppercase">Preview mode — connect Shopify to go live</span>
+            <span className="font-mono text-[9px] tracking-widest text-white/25 uppercase">Preview mode. Connect Shopify to go live</span>
           </div>
         )}
       </section>

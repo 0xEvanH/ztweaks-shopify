@@ -5,15 +5,17 @@ import {FaDiscord} from 'react-icons/fa';
 import {RiBookOpenLine, RiQuestionLine} from 'react-icons/ri';
 
 export const meta = () => [
-  {title: 'About — ZTweaks'},
+  {title: 'About | ZTweaks'},
   {name: 'description', content: 'Built by competitive gamers who refused to leave FPS on the table.'},
+  {property: 'og:title', content: 'About | ZTweaks'},
+  {property: 'og:description', content: 'Built by competitive gamers who refused to leave FPS on the table.'},
 ];
 
 const values = [
   {num: '01', title: 'Transparency First', desc: 'Every tweak is documented. You always know exactly what changed, which registry key was touched, and why.'},
   {num: '02', title: 'Safety by Default', desc: 'Full system snapshot before any change. One-click rollback to your exact original state, guaranteed.'},
   {num: '03', title: 'Community-Driven', desc: 'Our roadmap is shaped entirely by our Discord community of 5,000+ players. If the community wants it, it ships.'},
-  {num: '04', title: 'Always Improving', desc: 'Lifetime updates ship with every purchase. What you buy today gets better forever — no upgrade fees, ever.'},
+  {num: '04', title: 'Always Improving', desc: 'Lifetime updates ship with every purchase. What you buy today gets better forever , no upgrade fees, ever.'},
 ];
 
 const team = [
@@ -61,7 +63,7 @@ export default function About() {
           </p>
           <p className="text-[14px] text-white/38 font-light leading-relaxed max-w-lg">
             ZTweaks was born from a simple frustration: elite hardware being held back by bloated OS defaults.
-            We set out to fix every layer of the stack — from registry to router — so your rig finally performs
+            We set out to fix every layer of the stack , from registry to router , so your rig finally performs
             the way it was built to.
           </p>
         </motion.div>
@@ -79,7 +81,7 @@ export default function About() {
             <div className="glass-card p-8 h-full">
               <h2 className="font-display text-[22px] tracking-wider text-white mb-5">THE MISSION</h2>
               <p className="text-[14px] text-white/40 leading-relaxed font-light mb-4">
-                Every optimization we ship is <strong className="text-white/70 font-medium">tested under real competitive conditions</strong> — not synthetic benchmarks, not isolated lab scenarios. If it doesn't hold up in ranked, it doesn't ship.
+                Every optimization we ship is <strong className="text-white/70 font-medium">tested under real competitive conditions</strong> , not synthetic benchmarks, not isolated lab scenarios. If it doesn't hold up in ranked, it doesn't ship.
               </p>
               <p className="text-[14px] text-white/40 leading-relaxed font-light">
                 No bloatware. No hidden subscriptions. No vague promises. Every claim we make is <strong className="text-white/70 font-medium">backed by reproducible data</strong> and a 30-day satisfaction guarantee.
@@ -117,7 +119,7 @@ export default function About() {
             <div className="glass-card p-8">
               <h2 className="font-display text-[22px] tracking-wider text-white mb-3">THE TEAM</h2>
               <p className="text-[13px] text-white/35 font-light mb-6 leading-relaxed">
-                A small, focused crew of competitive gamers, systems engineers, and performance obsessives. We keep the team intentionally lean — everyone ships.
+                A small, focused crew of competitive gamers, systems engineers, and performance obsessives. We keep the team intentionally lean , everyone ships.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {team.map((m) => (
@@ -180,7 +182,7 @@ export default function About() {
                   Get support, share configs, and stay ahead of every update inside our community.
                 </p>
                 <a
-                  href="https://discord.gg"
+                  href="https://discord.gg/WjAZH8KUWd"
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-3 px-8 py-4 bg-[#5865F2] hover:bg-[#6875f5] text-white text-[13px] font-semibold tracking-wider rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(88,101,242,0.4)] hover:-translate-y-0.5"

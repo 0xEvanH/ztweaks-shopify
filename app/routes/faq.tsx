@@ -3,8 +3,10 @@ import {motion, AnimatePresence} from 'motion/react';
 import {Link} from 'react-router';
 
 export const meta = () => [
-  {title: 'FAQ — ZTweaks'},
+  {title: 'FAQ | ZTweaks'},
   {name: 'description', content: 'Answers to the most common questions about ZTweaks products, safety, and support.'},
+  {property: 'og:title', content: 'FAQ | ZTweaks'},
+  {property: 'og:description', content: 'Answers to the most common questions about ZTweaks products, safety, and support.'},
 ];
 
 const groups = [
@@ -13,7 +15,7 @@ const groups = [
     faqs: [
       {
         q: 'What is ZTweaks?',
-        a: 'ZTweaks is a suite of PC optimization tools engineered for competitive gaming. Our products target every layer of the stack — OS scheduler, registry, GPU pipeline, network, and macro automation — to eliminate latency and maximize frames.',
+        a: 'ZTweaks is a suite of PC optimization tools engineered for competitive gaming. Our products target every layer of the stack , OS scheduler, registry, GPU pipeline, network, and macro automation , to eliminate latency and maximize frames.',
       },
       {
         q: 'Who is ZTweaks for?',
@@ -30,7 +32,7 @@ const groups = [
     faqs: [
       {
         q: 'Is ZTweaks safe? Will it break my PC?',
-        a: 'Yes, ZTweaks is safe. Every product creates a full Windows restore point before applying a single change. If anything feels wrong — even after a week — you can roll back to your exact pre-ZTweaks state in one click. We\'ve never had a user lose data from a ZTweaks optimization.',
+        a: 'Yes, ZTweaks is safe. Every product creates a full Windows restore point before applying a single change. If anything feels wrong , even after a week , you can roll back to your exact pre-ZTweaks state in one click. We\'ve never had a user lose data from a ZTweaks optimization.',
       },
       {
         q: 'Will I get banned in competitive games?',
@@ -38,11 +40,11 @@ const groups = [
       },
       {
         q: 'Does ZTweaks affect my warranty?',
-        a: 'No. ZTweaks makes software-level changes only — registry settings, Windows configuration, and network parameters. No hardware modifications are made and no firmware is touched. Your manufacturer warranty is unaffected.',
+        a: 'No. ZTweaks makes software-level changes only , registry settings, Windows configuration, and network parameters. No hardware modifications are made and no firmware is touched. Your manufacturer warranty is unaffected.',
       },
       {
         q: 'How do I undo ZTweaks?',
-        a: 'Open the ZTweaks app, go to Settings → Restore, and click "Roll Back All Changes". Alternatively, use Windows System Restore and select the restore point labelled "ZTweaks — [date]". See the Docs page for full instructions.',
+        a: 'Open the ZTweaks app, go to Settings → Restore, and click "Roll Back All Changes". Alternatively, use Windows System Restore and select the restore point labelled "ZTweaks , [date]". See the Docs page for full instructions.',
       },
     ],
   },
@@ -51,7 +53,7 @@ const groups = [
     faqs: [
       {
         q: 'What Windows versions are supported?',
-        a: 'Windows 10 (version 1903 or later) and Windows 11. All editions are supported — Home, Pro, and Enterprise. macOS and Linux are not supported.',
+        a: 'Windows 10 (version 1903 or later) and Windows 11. All editions are supported , Home, Pro, and Enterprise. macOS and Linux are not supported.',
       },
       {
         q: 'What games does ZTweaks work with?',

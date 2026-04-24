@@ -12,8 +12,10 @@ import {
 import { FaDiscord } from 'react-icons/fa';
 
 export const meta = () => [
-  { title: 'ZTweaks — Maximum Performance, Zero Lag' },
+  { title: 'ZTweaks | Maximum Performance, Zero Lag' },
   { name: 'description', content: 'Elite PC optimization and macro automation for competitive players.' },
+  { property: 'og:title', content: 'ZTweaks | Maximum Performance, Zero Lag' },
+  { property: 'og:description', content: 'Elite PC optimization and macro automation for competitive players. Maximum performance, zero lag.' },
 ];
 
 const heroStats = [
@@ -51,7 +53,7 @@ const features = [
     icon: RiPulseLine,
     num: '05',
     title: 'Real-Time Monitor',
-    desc: 'Live performance telemetry — FPS, 1% lows, input latency, and system load in a minimal overlay.',
+    desc: 'Live performance telemetry: FPS, 1% lows, input latency, and system load in a minimal overlay.',
   },
   {
     icon: RiShieldCheckLine,
@@ -98,7 +100,7 @@ function HeroSection() {
 
       <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center">
 
-        {/* Badge — matches Badge component pattern */}
+        {/* Badge - matches Badge component pattern */}
         <motion.div
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -114,7 +116,7 @@ function HeroSection() {
           </span>
         </motion.div>
 
-        {/* Title — matches HeroSection font-display pattern */}
+        {/* Title - matches HeroSection font-display pattern */}
         <h1 className="font-display text-[clamp(64px,10vw,128px)] leading-[0.88] tracking-[0.02em] mb-8">
           <motion.span
             initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
@@ -145,7 +147,7 @@ function HeroSection() {
           engineered for players who refuse to leave a single frame on the table.
         </motion.p>
 
-        {/* CTAs — matches HeroSection button styles exactly */}
+        {/* CTAs - matches HeroSection button styles exactly */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -159,7 +161,7 @@ function HeroSection() {
             View Products
           </Link>
           <a
-            href="https://discord.gg"
+            href="https://discord.gg/WjAZH8KUWd"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 px-7 py-3.5 bg-white/4 border border-white/10 text-white/70 text-[13px] font-medium tracking-wider rounded-xl transition-all duration-300 hover:bg-white/8 hover:border-white/20 hover:text-white hover:-translate-y-0.5"
@@ -169,7 +171,7 @@ function HeroSection() {
           </a>
         </motion.div>
 
-        {/* Stats row — matches HeroSection stats pattern */}
+        {/* Stats row - matches HeroSection stats pattern */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -221,7 +223,7 @@ function FeaturesSection() {
 
   return (
     <section ref={ref} className="relative z-10 py-28 px-6 md:px-12 max-w-7xl mx-auto">
-      {/* Section header — matches FeaturesSection pattern */}
+      {/* Section header - matches FeaturesSection pattern */}
       <div className="text-center mb-16">
         <motion.div
           initial={{ opacity: 0, y: 8 }}
@@ -251,7 +253,7 @@ function FeaturesSection() {
         </motion.p>
       </div>
 
-      {/* Grid — matches FeaturesSection gap-4 pattern */}
+      {/* Grid - matches FeaturesSection gap-4 pattern */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {features.map((f, i) => {
           const Icon = f.icon;

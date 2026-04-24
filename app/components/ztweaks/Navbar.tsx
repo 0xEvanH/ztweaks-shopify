@@ -109,7 +109,7 @@ export default function Navbar() {
           className="shrink-0"
         >
           <a
-            href="https://discord.gg"
+            href="https://discord.gg/WjAZH8KUWd"
             target="_blank"
             rel="noreferrer"
             className="flex items-center gap-2.5 rounded-full text-white font-semibold tracking-wide transition-all duration-300 hover:shadow-[0_0_28px_rgba(88,101,242,0.5)] hover:-translate-y-0.5 backdrop-blur-xl border border-white/8"
