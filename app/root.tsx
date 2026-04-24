@@ -20,10 +20,10 @@ import {PageLayout} from './components/PageLayout';
 export const meta = () => [
   {property: 'og:type', content: 'website'},
   {property: 'og:site_name', content: 'ZTweaks'},
-  {property: 'og:image', content: '/og-image.png'},
+  {property: 'og:image', content: 'https://ztweaksshop.evhsync.com/og-image.png'},
   {name: 'twitter:card', content: 'summary_large_image'},
   {name: 'twitter:site', content: '@ztweaks'},
-  {name: 'twitter:image', content: '/og-image.png'},
+  {name: 'twitter:image', content: 'https://ztweaksshop.evhsync.com/og-image.png'},
   {name: 'theme-color', content: '#050505'},
 ];
 
@@ -129,6 +129,17 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <link rel="stylesheet" href={appStyles} />
         <Meta />
         <Links />
+        {/* UpPromote affiliate tracking */}
+        <script
+          nonce={nonce}
+          dangerouslySetInnerHTML={{__html: `
+            window.upDataLayer = window.upDataLayer || [];
+            function upTag() { return upDataLayer.push(arguments); }
+            upTag('config', 'myshopify_domain', 'v1tw14-5z.myshopify.com');
+            upTag('config', 'linker', ['v1tw14-5z.myshopify.com', 'ztweaksshop.evhsync.com']);
+          `}}
+        />
+        <script nonce={nonce} async src="https://static-pixel.uppromote.com/collect/v1/collect.js" />
       </head>
       <body style={{backgroundColor: '#050505'}}>
         {children}
