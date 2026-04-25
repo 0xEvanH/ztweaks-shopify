@@ -80,10 +80,6 @@ const groups = [
         q: 'Do I get updates included?',
         a: 'Yes. All one-time purchases include lifetime updates. Subscription products (Macro Pro Pack) receive updates for the duration of the subscription. The Elite Bundle includes lifetime updates for every product, forever.',
       },
-      {
-        q: 'What is your refund policy?',
-        a: 'We offer a 30-day satisfaction guarantee on all products. If you\'re not happy for any reason, email hello@ztweaks.com with your order number and we\'ll issue a full refund, no questions asked.',
-      },
     ],
   },
 ];
