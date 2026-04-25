@@ -1,0 +1,114 @@
+// app/routes/$slug.tsx
+//
+// Catch-all single-segment route that handles your affiliate short-links
+// (e.g. /cobraxz, /pixel, /jaydenz, etc.) ported from the old Netlify
+// _redirects file.
+//
+// Notes:
+//  - More specific Hydrogen routes (products.$handle, collections.$handle,
+//    pages.$handle, account, cart, etc.) take precedence, so this only fires
+//    for un-matched single-segment paths.
+//  - If you use locale prefixes (e.g. /en-us/cobraxz), rename this file to
+//    `($locale).$slug.tsx` instead — same code body works.
+//  - Loader-only route. The default export only exists so React Router
+//    is happy; it should never actually render.
+
+import {redirect, type LoaderFunctionArgs} from 'react-router';
+
+/**
+ * UpPromote affiliate links.
+ *
+ * Kept pointed at ztweaks-3.myshopify.com on purpose: in "Redirect to Shopify"
+ * mode UpPromote needs the click to briefly hit the .myshopify.com domain so
+ * its script can read `sca_ref` and set the tracking cookie before the
+ * customer lands on ztweaks.com. If you switch UpPromote to "Go straight to
+ * third-party site" mode AND have the linker/cart tracking script wired into
+ * your Hydrogen <head>, you can change these to ztweaks.com.
+ */
+const AFFILIATE_REDIRECTS: Record<string, string> = {
+  cobraxz:   'https://ztweaks-3.myshopify.com/?sca_ref=10694630.KUPMNMKMHyYg8',
+  pixel:     'https://ztweaks-3.myshopify.com/?sca_ref=10850216.ccogciQJEtNJQ2',
+  edge:      'https://ztweaks-3.myshopify.com/?sca_ref=10702326.55l4RD4BTTQ8',
+  slam:      'https://ztweaks-3.myshopify.com/?sca_ref=10932559.m4yhb00CfyW1',
+  jaydenz:   'https://ztweaks-3.myshopify.com/?sca_ref=10694633.TyW5sbmPb8',
+  jaydenz1x: 'https://ztweaks-3.myshopify.com/?sca_ref=10694633.TyW5sbmPb8',
+  joshreyli: 'https://ztweaks-3.myshopify.com/?sca_ref=10700626.5BU9JnzIrpPS',
+  bren:      'https://ztweaks-3.myshopify.com/?sca_ref=10909769.3cv7pr9IbbIcV',
+  kozi:      'https://ztweaks-3.myshopify.com/?sca_ref=10701721.cUG2O7xj5lbOc',
+  dc:        'https://ztweaks-3.myshopify.com/?sca_ref=10835407.pVnwjmbtwnxiy',
+  guppy:     'https://ztweaks-3.myshopify.com/?sca_ref=10700789.0sfGdblJqUj',
+  muz:       'https://ztweaks-3.myshopify.com/?sca_ref=10700626.5BU9JnzIrpPS',
+  muzz:      'https://ztweaks-3.myshopify.com/?sca_ref=10700626.5BU9JnzIrpPS',
+  tiktok:    'https://ztweaks-3.myshopify.com/?sca_ref=10700626.5BU9JnzIrpPS',
+  victerv:   'https://ztweaks-3.myshopify.com/?sca_ref=10700626.5BU9JnzIrpPS',
+  status:    'https://ztweaks-3.myshopify.com/?sca_ref=10700626.5BU9JnzIrpPS',
+  kurk:      'https://ztweaks-3.myshopify.com/?sca_ref=10700626.5BU9JnzIrpPS',
+  verz:      'https://ztweaks-3.myshopify.com/?sca_ref=10851122.Ftv882NNqojBFVwo',
+  cold:      'https://ztweaks-3.myshopify.com/?sca_ref=10957672.N4jUoo5tubz',
+  semaj:     'https://ztweaks-3.myshopify.com/?sca_ref=11022726.3Hw47pZCa4fyDUE',
+  arkeez:    'https://ztweaks-3.myshopify.com/?sca_ref=11022794.aU1vENOMjJ1',
+  peterbot:  'https://ztweaks-3.myshopify.com/?sca_ref=10957672.N4jUoo5tubz',
+};
+
+/**
+ * Generic short-links that previously 200-rewrote to ztweaks.com.
+ * Since this IS ztweaks.com now, just send them to the homepage.
+ * (If you'd rather drop these slugs entirely, delete this block — they'll 404.)
+ */
+const HOMEPAGE_REDIRECTS: Record<string, string> = {
+  hajuu:  '/',
+  tavy:   '/',
+  twunti: '/',
+  xin:    '/',
+  macro:  '/',
+  rorvz:  '/',
+  wntr:   '/',
+  yasr:   '/',
+  rezy:   '/',
+  ritual: '/',
+  zenn:   '/',
+  rapid:  '/',
+};
+
+/**
+ * Special slugs that were previously 200-PROXIED to other Netlify sites.
+ * A 200 rewrite preserves the URL bar; a 302 redirect doesn't. If you
+ * actually need to keep the URL as ztweaks.com/termsofservice while serving
+ * remote content, this won't reproduce that — set up a Traefik proxy in
+ * Coolify, or rebuild the page natively in Hydrogen (recommended for ToS).
+ */
+const EXTERNAL_REDIRECTS: Record<string, string> = {
+  termsofservice: 'https://inspiring-baklava-d3ab6b.netlify.app/',
+  dazrr:          'https://quiet-cucurucho-b0b70a.netlify.app/',
+  king:           'https://quiet-platypus-5704a7.netlify.app/',
+};
+
+const REDIRECTS: Record<string, string> = {
+  ...AFFILIATE_REDIRECTS,
+  ...HOMEPAGE_REDIRECTS,
+  ...EXTERNAL_REDIRECTS,
+};
+
+export async function loader({params}: LoaderFunctionArgs) {
+  const slug = params.slug?.toLowerCase();
+
+  if (!slug) {
+    throw new Response('Not Found', {status: 404});
+  }
+
+  const destination = REDIRECTS[slug];
+
+  if (!destination) {
+    // Unknown slug — let your normal 404 handling take over.
+    throw new Response('Not Found', {status: 404});
+  }
+
+  // 302 (temporary) on purpose: affiliate destinations rotate, and 301s get
+  // cached aggressively by browsers. Switch to 301 only if you're sure.
+  return redirect(destination, 302);
+}
+
+// Should never render — loader always redirects or throws.
+export default function ShortLinkRoute() {
+  return null;
+}
