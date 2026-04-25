@@ -33,7 +33,6 @@ const channels = [
 const faqs = [
   {q: 'How fast do you respond?', a: 'Discord support is typically answered within a few hours. Email support within 24 hours on business days.'},
   {q: 'I bought a product and need help installing it.', a: 'Head to our Discord #support channel or check the Docs page for step-by-step installation guides for every product.'},
-  {q: 'I want a refund.', a: 'We offer a 30-day satisfaction guarantee. Email hello@ztweaks.com with your order number and we\'ll process it, no questions asked.'},
 ];
 
 export default function Contact() {
@@ -105,7 +104,6 @@ export default function Contact() {
         >
           {[
             {icon: RiTimeLine, label: '< 24h', desc: 'Email response time'},
-            {icon: RiShieldCheckLine, label: '30 Days', desc: 'Satisfaction guarantee'},
             {icon: FaDiscord, label: 'Live', desc: 'Discord community support'},
           ].map((item) => {
             const Icon = item.icon;
