@@ -117,7 +117,7 @@ function HeroSection() {
         </motion.div>
 
         {/* Title - matches HeroSection font-display pattern */}
-        <h1 className="font-display text-[clamp(40px,8vw,128px)] sm:text-[clamp(56px,10vw,128px)] leading-[0.9] sm:leading-[0.88] tracking-[0.02em] mb-6 sm:mb-8 text-center sm:text-left">
+        <h1 className="font-display text-[clamp(40px,8vw,128px)] sm:text-[clamp(56px,10vw,128px)] leading-[0.9] sm:leading-[0.88] tracking-[0.02em] mb-6 sm:mb-8 text-center">
           <motion.span
             initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
