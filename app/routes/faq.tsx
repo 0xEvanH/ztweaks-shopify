@@ -74,7 +74,7 @@ const groups = [
       },
       {
         q: 'Can I use my license on multiple PCs?',
-        a: 'Each license can be activated on up to 2 machines simultaneously. If you need more, contact support and we\'ll sort it out.',
+        a: 'Each license can be activated on only 1 machine simultaneously.',
       },
       {
         q: 'Do I get updates included?',
