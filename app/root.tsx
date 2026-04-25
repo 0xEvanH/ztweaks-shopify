@@ -129,7 +129,16 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <link rel="stylesheet" href={appStyles} />
         <Meta />
         <Links />
-        <script async src="https://pixel.uppromote.com/collect/v1/collect?shop=v1tw14-5z.myshopify.com" />
+        <script
+          nonce={nonce}
+          dangerouslySetInnerHTML={{__html: `
+            window.upDataLayer = window.upDataLayer || [];
+            function upTag() { return upDataLayer.push(arguments); }
+            upTag('config', 'myshopify_domain', 'v1tw14-5z.myshopify.com');
+            upTag('config', 'linker', ['v1tw14-5z.myshopify.com', 'ztweaks.com']);
+          `}}
+        />
+        <script nonce={nonce} async src="https://static-pixel.uppromote.com/collect/v1/collect.js" />
       </head>
       <body style={{backgroundColor: '#050505'}}>
         {children}
