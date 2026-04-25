@@ -20,8 +20,8 @@ export const meta = () => [
 
 const heroStats = [
   { val: '5,000+', label: 'Active Users' },
-  { val: '99.9%',  label: 'Satisfaction' },
-  { val: '24/7',   label: 'Support' },
+  { val: '99.9%', label: 'Satisfaction' },
+  { val: '24/7', label: 'Support' },
 ];
 
 const features = [
@@ -69,10 +69,10 @@ const tickerItems = [
 ];
 
 const bottomStats = [
-  { val: '5K+',    label: 'Active Users',       desc: 'and growing daily' },
-  { val: '340ms',  label: 'Avg. Latency Cut',   desc: 'across all products' },
-  { val: '6',      label: 'Products',           desc: 'ready out of the box' },
-  { val: '+150fps',label: 'Avg. Frame Rate Gain',desc: 'using our products' },
+  { val: '5K+', label: 'Active Users', desc: 'and growing daily' },
+  { val: '340ms', label: 'Avg. Latency Cut', desc: 'across all products' },
+  { val: '6', label: 'Products', desc: 'ready out of the box' },
+  { val: '+150fps', label: 'Avg. Frame Rate Gain', desc: 'using our products' },
 ];
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
@@ -117,7 +117,7 @@ function HeroSection() {
         </motion.div>
 
         {/* Title - matches HeroSection font-display pattern */}
-        <h1 className="font-display text-[clamp(64px,10vw,128px)] leading-[0.88] tracking-[0.02em] mb-8">
+        <h1 className="font-display text-[clamp(40px,8vw,128px)] sm:text-[clamp(56px,10vw,128px)] leading-[0.9] sm:leading-[0.88] tracking-[0.02em] mb-6 sm:mb-8 text-center sm:text-left">
           <motion.span
             initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -126,6 +126,7 @@ function HeroSection() {
           >
             ELITE GAMING
           </motion.span>
+
           <motion.span
             initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -199,7 +200,7 @@ function HeroSection() {
             <div className="flex items-center justify-between px-4 py-3 border-b border-white/6 bg-white/2">
               <div className="flex gap-1.5">
                 {['#ff5f57', '#febc2e', '#28c840'].map((c, i) => (
-                  <div key={i} className="w-2.5 h-2.5 rounded-full" style={{background: c, opacity: 0.6}} />
+                  <div key={i} className="w-2.5 h-2.5 rounded-full" style={{ background: c, opacity: 0.6 }} />
                 ))}
               </div>
               <div className="font-mono text-[10px] tracking-widest text-white/20">ZTWEAKS</div>
@@ -208,16 +209,16 @@ function HeroSection() {
             {/* Video */}
             <div className="relative aspect-video bg-black overflow-hidden">
               <video src="/ZulsVid.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover" />
-              <div className="absolute inset-0 pointer-events-none" style={{backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px)'}} />
+              <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px)' }} />
             </div>
             {/* Bottom bar */}
             <div className="grid grid-cols-3 divide-x divide-white/6 border-t border-white/6">
               {[
-                {v: 'Pro Tweaks', l: 'Optimization'},
-                {v: 'Zero Delay', l: 'Network'},
-                {v: 'Macro Pro', l: 'Automation'},
+                { v: 'Pro Tweaks', l: 'Optimization' },
+                { v: 'Zero Delay', l: 'Network' },
+                { v: 'Macro Pro', l: 'Automation' },
               ].map((s, i) => (
-                <div key={i} className="px-5 py-3.5 text-center bg-white/[0.01]">
+                <div key={i} className="px-5 py-3.5 text-center bg-white/1">
                   <div className="font-mono text-[8px] tracking-[0.18em] text-white/25 uppercase mb-0.5">{s.l}</div>
                   <div className="font-display text-[18px] tracking-wider text-white">{s.v}</div>
                 </div>
