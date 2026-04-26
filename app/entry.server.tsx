@@ -54,8 +54,8 @@ export default async function handleRequest(
     </NonceProvider>,
     {
       nonce,
-      signal: request.signal,
       onError(error) {
+        if (error instanceof DOMException && error.name === 'AbortError') return;
         console.error(error);
         responseStatusCode = 500;
       },
