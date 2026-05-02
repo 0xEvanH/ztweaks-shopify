@@ -48,6 +48,7 @@ const AFFILIATE_REDIRECTS: Record<string, string> = {
   semaj:     'https://ztweaks.com/?sca_ref=11022726.3Hw47pZCa4fyDUE',
   arkeez:    'https://ztweaks.com/?sca_ref=11022794.aU1vENOMjJ1',
   peterbot:  'https://ztweaks.com/?sca_ref=10957672.N4jUoo5tubz',
+  reydy:     'https://ztweaks.com/?sca_ref=11129535.1T9TglXtOxCXBVds',
 };
 
 /**

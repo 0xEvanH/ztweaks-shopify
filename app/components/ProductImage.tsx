@@ -19,6 +19,7 @@ export function ProductImage({
           muted
           loop
           playsInline
+          {...({'webkit-playsinline': 'true'} as any)}
           style={{aspectRatio: '1/1', objectFit: 'cover', width: '100%'}}
         />
       </div>
