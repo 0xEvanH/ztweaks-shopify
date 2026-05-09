@@ -1,16 +1,27 @@
-// app/components/ProductImage.tsx
+import {useState, useEffect} from 'react';
 import type {ProductVariantFragment} from 'storefrontapi.generated';
 import {Image} from '@shopify/hydrogen';
 
+function useIsTikTokBrowser() {
+  const [isTikTok, setIsTikTok] = useState(false);
+  useEffect(() => {
+    if (/BytedanceWebview|ByteLocale|musical_ly/i.test(navigator.userAgent)) {
+      setIsTikTok(true);
+    }
+  }, []);
+  return isTikTok;
+}
+
 export function ProductImage({
   image,
-  videoPath, // 👈 1. Accept the new prop
+  videoPath,
 }: {
   image: ProductVariantFragment['image'];
-  videoPath?: string; // 👈 2. Add the type
+  videoPath?: string;
 }) {
-  // 3. Priority logic: If a video exists, show it instead of the image
-  if (videoPath) {
+  const isTikTok = useIsTikTokBrowser();
+
+  if (videoPath && !isTikTok) {
     return (
       <div className="product-image">
         <video

@@ -129,6 +129,12 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <link rel="stylesheet" href={appStyles} />
         <Meta />
         <Links />
+        {/* Guard against TikTok WebView pre-injecting a non-configurable window.Shopify,
+            which causes "Cannot redefine property: Shopify" and crashes the app. */}
+        <script
+          nonce={nonce}
+          dangerouslySetInnerHTML={{__html: `(function(){try{if(window.Shopify){var d=Object.getOwnPropertyDescriptor(window,'Shopify');if(d&&!d.configurable){Object.defineProperty(window,'Shopify',{configurable:true,writable:true,value:d.value});}}}catch(e){}}());`}}
+        />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{__html: `
