@@ -32,7 +32,7 @@ export function Header({
       <HeaderMenu
         menu={menu}
         viewport="desktop"
-        primaryDomainUrl={header.shop.primaryDomain.url}
+        primaryDomainUrl={header.shop.primaryDomain?.url ?? ''}
         publicStoreDomain={publicStoreDomain}
       />
       <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
@@ -47,7 +47,7 @@ export function HeaderMenu({
   publicStoreDomain,
 }: {
   menu: HeaderProps['header']['menu'];
-  primaryDomainUrl: HeaderProps['header']['shop']['primaryDomain']['url'];
+  primaryDomainUrl: string;
   viewport: Viewport;
   publicStoreDomain: HeaderProps['publicStoreDomain'];
 }) {
@@ -74,7 +74,7 @@ export function HeaderMenu({
         const url =
           item.url.includes('myshopify.com') ||
           item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl)
+          (primaryDomainUrl && item.url.includes(primaryDomainUrl))
             ? new URL(item.url).pathname
             : item.url;
         return (
