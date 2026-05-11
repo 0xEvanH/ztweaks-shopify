@@ -46,7 +46,10 @@ async function loadCriticalData({ context, params, request }: Route.LoaderArgs) 
 
   redirectIfHandleIsLocalized(request, { handle, data: product });
 
-  return { product };
+  const ua = request.headers.get('user-agent') ?? '';
+  const isTikTokBrowser = /BytedanceWebview|ByteLocale|musical_ly/i.test(ua);
+
+  return { product, isTikTokBrowser };
 }
 
 function loadDeferredData(_args: Route.LoaderArgs) {
@@ -54,7 +57,7 @@ function loadDeferredData(_args: Route.LoaderArgs) {
 }
 
 export default function Product() {
-  const { product } = useLoaderData<typeof loader>();
+  const { product, isTikTokBrowser } = useLoaderData<typeof loader>();
 
   const selectedVariant = useOptimisticVariant(
     product.selectedOrFirstAvailableVariant,
@@ -63,7 +66,7 @@ export default function Product() {
 
   useSelectedOptionInUrlParam(selectedVariant.selectedOptions);
 
-  const videoPath = product.video?.value;
+  const videoPath = isTikTokBrowser ? undefined : (product.video?.value ?? undefined);
 
   const productOptions = getProductOptions({
     ...product,

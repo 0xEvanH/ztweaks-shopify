@@ -1,16 +1,5 @@
-import {useState, useEffect} from 'react';
 import type {ProductVariantFragment} from 'storefrontapi.generated';
 import {Image} from '@shopify/hydrogen';
-
-function useIsTikTokBrowser() {
-  const [isTikTok, setIsTikTok] = useState(false);
-  useEffect(() => {
-    if (/BytedanceWebview|ByteLocale|musical_ly/i.test(navigator.userAgent)) {
-      setIsTikTok(true);
-    }
-  }, []);
-  return isTikTok;
-}
 
 export function ProductImage({
   image,
@@ -19,9 +8,7 @@ export function ProductImage({
   image: ProductVariantFragment['image'];
   videoPath?: string;
 }) {
-  const isTikTok = useIsTikTokBrowser();
-
-  if (videoPath && !isTikTok) {
+  if (videoPath) {
     return (
       <div className="product-image">
         <video

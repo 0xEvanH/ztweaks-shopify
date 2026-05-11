@@ -24,6 +24,8 @@ export const meta = () => [
   {name: 'twitter:card', content: 'summary_large_image'},
   {name: 'twitter:site', content: '@ztweaks'},
   {name: 'twitter:image', content: 'https://ztweaksshop.evhsync.com/og-image.png'},
+  {name: 'author', content: '@synclairdesign'},
+  {name: 'twitter:creator', content: '@synclairdesign'},
   {name: 'theme-color', content: '#050505'},
 ];
 

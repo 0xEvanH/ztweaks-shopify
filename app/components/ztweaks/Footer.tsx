@@ -93,7 +93,17 @@ export default function Footer() {
         <div className="h-px bg-linear-to-r from-transparent via-white/5 to-transparent mb-6" />
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <span className="font-mono text-[9px] tracking-[0.12em] text-white/18 uppercase">© 2026 ZTweaks. All rights reserved.</span>
-          <span className="font-mono text-[9px] tracking-[0.12em] text-white/18 uppercase">Powered by Shopify</span>
+          <span className="font-mono text-[9px] tracking-[0.12em] text-white/18 uppercase">
+            Designed by{' '}
+            <a
+              href="https://x.com/synclairdesign"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-white/40 transition-colors duration-200"
+            >
+              @synclairdesign
+            </a>
+          </span>
         </div>
       </div>
     </footer>
