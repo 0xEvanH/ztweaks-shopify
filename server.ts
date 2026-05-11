@@ -139,11 +139,15 @@ export default {
           return response;
         }
 
-        return storefrontRedirect({
-          request,
-          response,
-          storefront: hydrogenContext.storefront,
-        });
+        try {
+          return await storefrontRedirect({
+            request,
+            response,
+            storefront: hydrogenContext.storefront,
+          });
+        } catch {
+          return response;
+        }
       }
 
       return response;

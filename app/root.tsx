@@ -107,13 +107,13 @@ function loadDeferredData({context}: Route.LoaderArgs) {
       },
     })
     .catch((error: Error) => {
-      console.error(error);
+      console.error('Footer query failed:', error?.message ?? String(error));
       return null;
     });
 
   return {
-    cart: cart.get(),
-    isLoggedIn: customerAccount.isLoggedIn(),
+    cart: cart.get().catch(() => null),
+    isLoggedIn: customerAccount.isLoggedIn().catch(() => false),
     footer,
   };
 }
