@@ -16,6 +16,7 @@ import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/PageLayout';
+import {TikTokBanner} from './components/TikTokBanner';
 
 export const meta = () => [
   {property: 'og:type', content: 'website'},
@@ -174,6 +175,7 @@ export default function App() {
       <PageLayout {...data}>
         <Outlet />
       </PageLayout>
+      <TikTokBanner />
     </Analytics.Provider>
   );
 }

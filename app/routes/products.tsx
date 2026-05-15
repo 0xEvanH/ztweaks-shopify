@@ -61,8 +61,10 @@ interface ShapedProduct {
   checkoutUrl: string;
 }
 
-export async function loader({context}: Route.LoaderArgs) {
+export async function loader({context, request}: Route.LoaderArgs) {
   const {storefront} = context;
+  const ua = request.headers.get('user-agent') ?? '';
+  const isMobile = /Android|iPhone|iPad|iPod|webOS|Mobile/i.test(ua);
   try {
     const {products} = await storefront.query(PRODUCTS_QUERY);
     const shaped: ShapedProduct[] = products.nodes.map((p: any) => {
@@ -92,9 +94,9 @@ export async function loader({context}: Route.LoaderArgs) {
         checkoutUrl: `/cart/${p.variants.nodes[0]?.id.split('/').pop()}:1`,
       };
     });
-    return {products: shaped, source: 'shopify' as const};
+    return {products: shaped, source: 'shopify' as const, isMobile};
   } catch {
-    return {products: STATIC_PRODUCTS, source: 'static' as const};
+    return {products: STATIC_PRODUCTS, source: 'static' as const, isMobile};
   }
 }
 
@@ -234,15 +236,17 @@ function ProductThumb({
   image,
   label,
   small = false,
+  isMobile = false,
 }: {
   id: string;
   video: string | null;
   image: string | null;
   label: string;
   small?: boolean;
+  isMobile?: boolean;
 }) {
   const [videoErrored, setVideoErrored] = useState(false);
-  const showVideo = video && !videoErrored;
+  const showVideo = video && !videoErrored && !isMobile;
 
   return (
     <div className="relative w-full h-full bg-black/40 overflow-hidden">
@@ -280,7 +284,7 @@ function ProductThumb({
 }
 
 export default function Products() {
-  const {products, source} = useLoaderData<typeof loader>();
+  const {products, source, isMobile} = useLoaderData<typeof loader>();
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, {once: true, margin: '-60px'});
 
@@ -318,7 +322,7 @@ export default function Products() {
                         </span>
                       </div>
                     )}
-                    <ProductThumb id={p.id} video={p.video} image={p.image} label={p.name} small={true} />
+                    <ProductThumb id={p.id} video={p.video} image={p.image} label={p.name} small={true} isMobile={isMobile} />
                   </div>
                   <div className="p-6">
                     <div className="font-mono text-[9px] tracking-[0.18em] text-white/30 uppercase mb-2">{p.cat}</div>

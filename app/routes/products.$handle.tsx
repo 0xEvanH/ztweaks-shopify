@@ -47,11 +47,9 @@ async function loadCriticalData({ context, params, request }: Route.LoaderArgs) 
   redirectIfHandleIsLocalized(request, { handle, data: product });
 
   const ua = request.headers.get('user-agent') ?? '';
-  const isTikTok = /BytedanceWebview|ByteLocale|musical_ly/i.test(ua);
-  const isIOS = /iPhone|iPad|iPod/i.test(ua);
-  const isIOSTikTok = isTikTok && isIOS;
+  const isMobile = /Android|iPhone|iPad|iPod|webOS|Mobile/i.test(ua);
 
-  return { product, isIOSTikTok };
+  return { product, isMobile };
 }
 
 function loadDeferredData(_args: Route.LoaderArgs) {
@@ -59,7 +57,7 @@ function loadDeferredData(_args: Route.LoaderArgs) {
 }
 
 export default function Product() {
-  const { product, isIOSTikTok } = useLoaderData<typeof loader>();
+  const { product, isMobile } = useLoaderData<typeof loader>();
 
   const selectedVariant = useOptimisticVariant(
     product.selectedOrFirstAvailableVariant,
@@ -68,7 +66,7 @@ export default function Product() {
 
   useSelectedOptionInUrlParam(selectedVariant.selectedOptions);
 
-  const videoPath = isIOSTikTok ? undefined : (product.video?.value ?? undefined);
+  const videoPath = isMobile ? undefined : (product.video?.value ?? undefined);
 
   const productOptions = getProductOptions({
     ...product,
