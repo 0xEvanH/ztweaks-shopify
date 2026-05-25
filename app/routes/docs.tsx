@@ -265,7 +265,7 @@ export default function Docs() {
                     <div className="p-5 rounded-xl bg-white/2 border border-white/5">
                       <div className="text-[13px] font-semibold text-white/80 mb-1">Discord , #support channel</div>
                       <p className="text-[12px] text-white/35 font-light leading-snug mb-3">Typical response within 1–3 hours. Include your OS version, product name, and a description of the issue.</p>
-                      <a href="https://discord.gg/WjAZH8KUWd" target="_blank" rel="noreferrer"
+                      <a href="https://discord.gg/rnyaFY4z" target="_blank" rel="noreferrer"
                         className="inline-flex items-center gap-2 px-4 py-2 bg-[#5865F2] hover:bg-[#6875f5] text-white text-[11px] font-semibold tracking-wider rounded-lg transition-all duration-300">
                         Open Discord →
                       </a>

@@ -182,7 +182,7 @@ export default function About() {
                   Get support, share configs, and stay ahead of every update inside our community.
                 </p>
                 <a
-                  href="https://discord.gg/WjAZH8KUWd"
+                  href="https://discord.gg/rnyaFY4z"
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-3 px-8 py-4 bg-[#5865F2] hover:bg-[#6875f5] text-white text-[13px] font-semibold tracking-wider rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(88,101,242,0.4)] hover:-translate-y-0.5"

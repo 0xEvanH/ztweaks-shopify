@@ -162,7 +162,7 @@ function HeroSection() {
             View Products
           </Link>
           <a
-            href="https://discord.gg/WjAZH8KUWd"
+            href="https://discord.gg/rnyaFY4z"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 px-7 py-3.5 bg-white/4 border border-white/10 text-white/70 text-[13px] font-medium tracking-wider rounded-xl transition-all duration-300 hover:bg-white/8 hover:border-white/20 hover:text-white hover:-translate-y-0.5"

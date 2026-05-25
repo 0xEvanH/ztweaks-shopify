@@ -36,7 +36,7 @@ export default function Footer() {
               Maximum performance.<br />Zero lag.
             </p>
             <a
-              href="https://discord.gg/WjAZH8KUWd"
+              href="https://discord.gg/rnyaFY4z"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 mt-5 px-4 py-2 rounded-full border text-[11px] font-semibold tracking-wide transition-all duration-300"
