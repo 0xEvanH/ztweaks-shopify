@@ -47,11 +47,28 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
 }
 
 function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
-  if (!checkoutUrl) return null;
+  const [finalUrl, setFinalUrl] = useState(checkoutUrl ?? '');
+
+  useEffect(() => {
+    if (!checkoutUrl) return;
+    // UpPromote stores the affiliate ref in a cookie named sca_ref.
+    // Append it to the checkout URL so the Web Pixel on the thank-you page
+    // can attribute the sale even if the collect.js linker hasn't run yet.
+    const match = document.cookie.match(/(?:^|;\s*)sca_ref=([^;]+)/);
+    if (match) {
+      const url = new URL(checkoutUrl);
+      url.searchParams.set('sca_ref', decodeURIComponent(match[1]));
+      setFinalUrl(url.toString());
+    } else {
+      setFinalUrl(checkoutUrl);
+    }
+  }, [checkoutUrl]);
+
+  if (!finalUrl) return null;
 
   return (
     <div>
-      <a href={checkoutUrl} target="_self">
+      <a href={finalUrl} target="_self">
         <p>Continue to Checkout &rarr;</p>
       </a>
       <br />

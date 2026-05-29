@@ -26,12 +26,12 @@ import {redirect, type LoaderFunctionArgs} from 'react-router';
  * your Hydrogen <head>, you can change these to ztweaks.com.
  */
 const AFFILIATE_REDIRECTS: Record<string, string> = {
-  cobraxz:   'https://ztweaks.com/?sca_ref=10694630.KUPMNMKMHyYg8',
+  cobraxz:   'https://ztweaks-3.myshopify.com/?sca_ref=10694630.KUPMNMKMHyYg8',
   pixel:     'https://ztweaks.com/?sca_ref=10850216.ccogciQJEtNJQ2',
-  edge:      'https://ztweaks.com/?sca_ref=10702326.55l4RD4BTTQ8',
+  edge:      'https://ztweaks-3.myshopify.com/?sca_ref=10702326.55l4RD4BTTQ8',
   slam:      'https://ztweaks.com/?sca_ref=10932559.m4yhb00CfyW1',
-  jaydenz:   'https://ztweaks.com/?sca_ref=10694633.TyW5sbmPb8',
-  jaydenz1x: 'https://ztweaks.com/?sca_ref=10694633.TyW5sbmPb8',
+  jaydenz:   'https://ztweaks-3.myshopify.com/?sca_ref=10694633.TyW5sbmPb8',
+  jaydenz1x: 'https://ztweaks-3.myshopify.com/?sca_ref=10694633.TyW5sbmPb8',
   joshreyli: 'https://ztweaks.com/?sca_ref=10700626.5BU9JnzIrpPS',
   bren:      'https://ztweaks.com/?sca_ref=10909769.3cv7pr9IbbIcV',
   kozi:      'https://ztweaks.com/?sca_ref=10701721.cUG2O7xj5lbOc',
@@ -48,7 +48,8 @@ const AFFILIATE_REDIRECTS: Record<string, string> = {
   semaj:     'https://ztweaks.com/?sca_ref=11022726.3Hw47pZCa4fyDUE',
   arkeez:    'https://ztweaks.com/?sca_ref=11022794.aU1vENOMjJ1',
   peterbot:  'https://ztweaks.com/?sca_ref=10957672.N4jUoo5tubz',
-  reydy:     'https://ztweaks.com/?sca_ref=11129535.1T9TglXtOxCXBVds',
+  reydy:     'https://ztweaks-3.myshopify.com/?sca_ref=11129535.1T9TglXtOxCXBVds',
+  tarit:     'https://ztweaks-3.myshopify.com/?sca_ref=11373592.hRhylo0IDXc',
 };
 
 /**
