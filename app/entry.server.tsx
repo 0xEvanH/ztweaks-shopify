@@ -23,6 +23,7 @@ export default async function handleRequest(
       "'self'",
       'https://cdn.shopify.com',
       'https://pixel.uppromote.com',
+      'https://static-pixel.uppromote.com',
     ],
     connectSrc: [
       "'self'",
@@ -31,6 +32,7 @@ export default async function handleRequest(
       `https://${context.env.PUBLIC_STORE_DOMAIN}`,
       `https://${context.env.PUBLIC_CHECKOUT_DOMAIN}`,
       'https://pixel.uppromote.com',
+      'https://static-pixel.uppromote.com',
     ],
     styleSrc: [
       "'self'",
@@ -58,6 +60,8 @@ export default async function handleRequest(
       onError(error) {
         if (error instanceof DOMException && error.name === 'AbortError') return;
         if ((error as NodeJS.ErrnoException)?.code === 'ERR_INVALID_STATE') return;
+        // Bun: stream destination becomes null when client disconnects mid-flush
+        if (error instanceof TypeError && error.message === 'null is not an object') return;
         console.error(error);
         responseStatusCode = 500;
       },
