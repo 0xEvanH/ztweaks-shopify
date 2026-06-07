@@ -50,6 +50,8 @@ const AFFILIATE_REDIRECTS: Record<string, string> = {
   peterbot:  'https://ztweaks.com/?sca_ref=10957672.N4jUoo5tubz',
   reydy:     'https://ztweaks-3.myshopify.com/?sca_ref=11129535.1T9TglXtOxCXBVds',
   tarit:     'https://ztweaks-3.myshopify.com/?sca_ref=11373592.hRhylo0IDXc',
+  zenmonsta: 'https://ztweaks-3.myshopify.com/?sca_ref=11463165.hPPEM6xV2S',
+  palm:      'https://ztweaks-3.myshopify.com/?sca_ref=11444252.zH66m1i9IEz',
 };
 
 /**
