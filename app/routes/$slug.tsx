@@ -52,6 +52,7 @@ const AFFILIATE_REDIRECTS: Record<string, string> = {
   tarit:     'https://ztweaks-3.myshopify.com/?sca_ref=11373592.hRhylo0IDXc',
   zenmonsta: 'https://ztweaks-3.myshopify.com/?sca_ref=11463165.hPPEM6xV2S',
   palm:      'https://ztweaks-3.myshopify.com/?sca_ref=11444252.zH66m1i9IEz',
+  induur:    'https://ztweaks-3.myshopify.com/?sca_ref=11491453.dT0KMcmrlEeJq',
 };
 
 /**
