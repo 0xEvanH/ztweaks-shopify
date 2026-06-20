@@ -70,7 +70,6 @@ const HOMEPAGE_REDIRECTS: Record<string, string> = {
   wntr:   '/',
   yasr:   '/',
   rezy:   '/',
-  ritual: '/',
   zenn:   '/',
   rapid:  '/',
 };
@@ -88,6 +87,16 @@ const EXTERNAL_REDIRECTS: Record<string, string> = {
   king:           'https://quiet-platypus-5704a7.netlify.app/',
 };
 
+/**
+ * Proxy rewrites — the remote HTML is fetched server-side and returned with
+ * a 200, so the browser URL bar stays as ztweaks.com/<slug>. A <base> tag
+ * is injected so relative asset URLs (CSS, JS, images) resolve correctly
+ * against the origin site.
+ */
+const PROXY_REWRITES: Record<string, string> = {
+  ritual: 'https://frabjous-cobbler-f17e2e.netlify.app/',
+};
+
 const REDIRECTS: Record<string, string> = {
   ...AFFILIATE_REDIRECTS,
   ...HOMEPAGE_REDIRECTS,
@@ -99,6 +108,31 @@ export async function loader({params}: LoaderFunctionArgs) {
 
   if (!slug) {
     throw new Response('Not Found', {status: 404});
+  }
+
+  const proxyTarget = PROXY_REWRITES[slug];
+  if (proxyTarget) {
+    const upstream = await fetch(proxyTarget);
+    const html = await upstream.text();
+
+    // Injected into <head> of the proxied page so UpPromote's linker runs here
+    // and can decorate checkout links with sca_ref before the browser crosses
+    // to the Shopify checkout domain.
+    const upScript = `
+<base href="${proxyTarget}">
+<script>
+  window.upDataLayer = window.upDataLayer || [];
+  function upTag() { return upDataLayer.push(arguments); }
+  upTag('config', 'myshopify_domain', 'ztweaks-3.myshopify.com');
+  upTag('config', 'linker', ['ztweaks-3.myshopify.com', 'ztweaks.com']);
+</script>
+<script async src="https://static-pixel.uppromote.com/collect/v1/collect.js"></script>`;
+
+    const proxied = html.replace(/<head>/i, `<head>${upScript}`);
+    return new Response(proxied, {
+      status: 200,
+      headers: {'Content-Type': 'text/html; charset=utf-8'},
+    });
   }
 
   const destination = REDIRECTS[slug];

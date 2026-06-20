@@ -47,28 +47,29 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
 }
 
 function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
-  const [finalUrl, setFinalUrl] = useState(checkoutUrl ?? '');
+  if (!checkoutUrl) return null;
 
-  useEffect(() => {
-    if (!checkoutUrl) return;
-    // UpPromote stores the affiliate ref in a cookie named sca_ref.
-    // Append it to the checkout URL so the Web Pixel on the thank-you page
-    // can attribute the sale even if the collect.js linker hasn't run yet.
-    const match = document.cookie.match(/(?:^|;\s*)sca_ref=([^;]+)/);
-    if (match) {
-      const url = new URL(checkoutUrl);
-      url.searchParams.set('sca_ref', decodeURIComponent(match[1]));
-      setFinalUrl(url.toString());
-    } else {
-      setFinalUrl(checkoutUrl);
+  function handleCheckout(e: React.MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault();
+    try {
+      const url = new URL(checkoutUrl!);
+      // upTag('app', 'linker') returns UpPromote's _upl cross-domain tracking
+      // value. collect.js is guaranteed to be loaded by the time the user
+      // clicks, so this is safe to call here rather than on mount.
+      const upTagFn = (window as any).upTag;
+      if (typeof upTagFn === 'function') {
+        const linkerValue = upTagFn('app', 'linker');
+        if (linkerValue) url.searchParams.set('_upl', String(linkerValue));
+      }
+      window.location.href = url.toString();
+    } catch {
+      window.location.href = checkoutUrl!;
     }
-  }, [checkoutUrl]);
-
-  if (!finalUrl) return null;
+  }
 
   return (
     <div>
-      <a href={finalUrl} target="_self">
+      <a href={checkoutUrl} onClick={handleCheckout} target="_self">
         <p>Continue to Checkout &rarr;</p>
       </a>
       <br />
