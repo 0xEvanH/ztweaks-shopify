@@ -37,6 +37,7 @@ const PRODUCTS_QUERY = `#graphql
           { namespace: "ztweaks", key: "original_price" }
           { namespace: "ztweaks", key: "featured" }
           { namespace: "ztweaks", key: "period"   }
+          { namespace: "ztweaks", key: "affiliate_exclude" }
         ]) { key value }
       }
     }
@@ -61,13 +62,42 @@ interface ShapedProduct {
   checkoutUrl: string;
 }
 
+/**
+ * The affiliate "store" the visitor belongs to, captured by the `$slug`
+ * affiliate redirect as a first-party `ztstore` cookie. Lowercased so it
+ * matches the slugs we set and the (case-insensitive) metafield values.
+ */
+function getStoreFromRequest(request: Request): string | null {
+  const cookie = request.headers.get('cookie') ?? '';
+  const match = cookie.match(/(?:^|;\s*)ztstore=([^;]+)/);
+  return match ? decodeURIComponent(match[1]).toLowerCase() : null;
+}
+
 export async function loader({context, request}: Route.LoaderArgs) {
   const {storefront} = context;
   const ua = request.headers.get('user-agent') ?? '';
   const isMobile = /Android|iPhone|iPad|iPod|webOS|Mobile/i.test(ua);
+  const currentStore = getStoreFromRequest(request);
   try {
     const {products} = await storefront.query(PRODUCTS_QUERY);
-    const shaped: ShapedProduct[] = products.nodes.map((p: any) => {
+    const shaped: ShapedProduct[] = products.nodes
+      .filter((p: any) => {
+        // Hide a product when its `ztweaks.affiliate_exclude` list contains the
+        // visitor's current store. Unset metafield / no store cookie = always show.
+        if (!currentStore) return true;
+        const raw = (p.metafields ?? []).find(
+          (m: any) => m?.key === 'affiliate_exclude',
+        )?.value;
+        if (!raw) return true;
+        let excluded: string[] = [];
+        try {
+          excluded = (JSON.parse(raw) as string[]).map((s) => s.toLowerCase());
+        } catch {
+          excluded = [];
+        }
+        return !excluded.includes(currentStore);
+      })
+      .map((p: any) => {
       const meta = Object.fromEntries(
         (p.metafields ?? []).filter(Boolean).map((m: {key: string; value: string}) => [m.key, m.value]),
       );

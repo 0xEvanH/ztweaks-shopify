@@ -142,9 +142,20 @@ export async function loader({params}: LoaderFunctionArgs) {
     throw new Response('Not Found', {status: 404});
   }
 
+  // For affiliate short-links, stamp a first-party `ztstore` cookie on the
+  // ztweaks.com redirect *before* we bounce out to Shopify. After UpPromote
+  // reads sca_ref and lands the visitor back on ztweaks.com, the slug itself
+  // is gone — but this cookie persists, so /products can later filter which
+  // items show for this affiliate store. 30-day window (~attribution window).
+  const headers: HeadersInit = {};
+  if (slug in AFFILIATE_REDIRECTS) {
+    headers['Set-Cookie'] =
+      `ztstore=${slug}; Path=/; Max-Age=2592000; SameSite=Lax; Secure; HttpOnly`;
+  }
+
   // 302 (temporary) on purpose: affiliate destinations rotate, and 301s get
   // cached aggressively by browsers. Switch to 301 only if you're sure.
-  return redirect(destination, 302);
+  return redirect(destination, {status: 302, headers});
 }
 
 // Should never render — loader always redirects or throws.
