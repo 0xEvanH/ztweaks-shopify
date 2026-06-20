@@ -10,8 +10,9 @@
 //    for un-matched single-segment paths.
 //  - If you use locale prefixes (e.g. /en-us/cobraxz), rename this file to
 //    `($locale).$slug.tsx` instead — same code body works.
-//  - Loader-only route. The default export only exists so React Router
-//    is happy; it should never actually render.
+//  - Resource route (loader only, no default component export) so that the
+//    PROXY_REWRITES 200 passthrough is served as the document. See the note
+//    above the loader's return for why a component would break the proxy.
 
 import {redirect, type LoaderFunctionArgs} from 'react-router';
 
@@ -158,7 +159,10 @@ export async function loader({params}: LoaderFunctionArgs) {
   return redirect(destination, {status: 302, headers});
 }
 
-// Should never render — loader always redirects or throws.
-export default function ShortLinkRoute() {
-  return null;
-}
+// NOTE: This is intentionally a RESOURCE ROUTE — no default component export.
+// In React Router v7, a loader that returns a 200 `Response` only has its body
+// served as the document when the route has no component; if a component exists,
+// RR renders the component (and the app shell) and treats the Response as data,
+// which silently discards the proxied HTML. Redirects/404s short-circuit either
+// way, but the PROXY_REWRITES passthrough only works without a default export.
+// Same pattern as [robots.txt].tsx / [sitemap.xml].tsx.
