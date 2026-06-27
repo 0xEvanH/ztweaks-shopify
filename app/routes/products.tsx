@@ -44,6 +44,46 @@ const PRODUCTS_QUERY = `#graphql
   }
 ` as const;
 
+/**
+ * Manual display order for the products grid (top row, then bottom row).
+ * Matched case-insensitively against each product's normalized name/handle,
+ * so a product whose title contains "Zero Delay" lands in slot 2, etc.
+ * Anything not listed here is appended after, preserving its original order.
+ */
+const PRODUCT_ORDER = [
+  'macro',
+  'zerodelay',
+  'protweaks',
+  'premiumtweaks',
+  'controllermacro',
+  'shotgunpack',
+  'bloomreducer',
+  'everythingbundle',
+];
+
+const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+function orderProducts<T extends {id: string; name: string}>(items: T[]): T[] {
+  const rank = (p: T) => {
+    const id = normalize(p.id);
+    const name = normalize(p.name);
+    // "controllermacro" must win over "macro", so prefer the longest match.
+    let best = -1;
+    let bestLen = -1;
+    PRODUCT_ORDER.forEach((key, i) => {
+      if ((id.includes(key) || name.includes(key)) && key.length > bestLen) {
+        best = i;
+        bestLen = key.length;
+      }
+    });
+    return best === -1 ? PRODUCT_ORDER.length : best;
+  };
+  return items
+    .map((item, i) => ({item, i}))
+    .sort((a, b) => rank(a.item) - rank(b.item) || a.i - b.i)
+    .map(({item}) => item);
+}
+
 interface ShapedProduct {
   id: string;
   name: string;
@@ -124,9 +164,9 @@ export async function loader({context, request}: Route.LoaderArgs) {
         checkoutUrl: `/cart/${p.variants.nodes[0]?.id.split('/').pop()}:1`,
       };
     });
-    return {products: shaped, source: 'shopify' as const, isMobile};
+    return {products: orderProducts(shaped), source: 'shopify' as const, isMobile};
   } catch {
-    return {products: STATIC_PRODUCTS, source: 'static' as const, isMobile};
+    return {products: orderProducts(STATIC_PRODUCTS), source: 'static' as const, isMobile};
   }
 }
 
