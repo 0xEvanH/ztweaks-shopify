@@ -336,7 +336,7 @@ export default function Products() {
 
       {/* Grid */}
       <section ref={ref} className="pb-28 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {products.map((p, i) => (
             <motion.div key={p.id}
               initial={{opacity:0,y:28}} animate={inView ? {opacity:1,y:0} : {}}
