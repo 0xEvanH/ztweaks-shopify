@@ -125,7 +125,7 @@ export async function loader({params}: LoaderFunctionArgs) {
   window.upDataLayer = window.upDataLayer || [];
   function upTag() { return upDataLayer.push(arguments); }
   upTag('config', 'myshopify_domain', 'ztweaks-3.myshopify.com');
-  upTag('config', 'linker', ['ztweaks-3.myshopify.com', 'ztweaks.com']);
+  upTag('config', 'linker', ['ztweaks-3.myshopify.com', 'ztweaks.com', 'checkout.ztweaks.com']);
 </script>
 <script async src="https://static-pixel.uppromote.com/collect/v1/collect.js"></script>`;
 

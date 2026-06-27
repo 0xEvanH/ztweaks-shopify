@@ -144,7 +144,7 @@ export function Layout({children}: {children?: React.ReactNode}) {
             window.upDataLayer = window.upDataLayer || [];
             function upTag() { return upDataLayer.push(arguments); }
             upTag('config', 'myshopify_domain', 'v1tw14-5z.myshopify.com');
-            upTag('config', 'linker', ['ztweaks-3.myshopify.com', 'ztweaks.com']);
+            upTag('config', 'linker', ['ztweaks-3.myshopify.com', 'ztweaks.com', 'checkout.ztweaks.com']);
           `}}
         />
         <script nonce={nonce} async src="https://static-pixel.uppromote.com/collect/v1/collect.js" />

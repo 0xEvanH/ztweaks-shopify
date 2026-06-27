@@ -54,7 +54,7 @@ const PRODUCT_ORDER = [
   'macro',
   'zerodelay',
   'protweaks',
-  'premiumtweaks',
+  'premiumoptimizer',
   'controllermacro',
   'shotgunpack',
   'bloomreducer',
