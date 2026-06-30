@@ -138,13 +138,25 @@ export function Layout({children}: {children?: React.ReactNode}) {
           nonce={nonce}
           dangerouslySetInnerHTML={{__html: `(function(){try{if(window.Shopify){var d=Object.getOwnPropertyDescriptor(window,'Shopify');if(d&&!d.configurable){Object.defineProperty(window,'Shopify',{configurable:true,writable:true,value:d.value});}}}catch(e){}}());`}}
         />
+        {/* UpPromote affiliate pixel — "Cart tracking" mode.
+            Per the UpPromote guide, the Cart tracking and Linker tracking scripts
+            are IDENTICAL except for the linker config line. Omitting
+            upTag('config','linker',[...]) is what selects Cart tracking mode —
+            the only mode that attributes Hydrogen orders (we redirect to checkout
+            programmatically, so linker's <a> rewriting never fires).
+            ⚠️ Do NOT add a linker line back here.
+            Cart association is assumed to be handled by the pixel itself. If the
+            UpPromote "Order" verification stays red, the headless cart id likely
+            needs to be pushed manually on each cart mutation (the pixel can't
+            read /cart.js in Hydrogen): inside <Analytics.Provider>, useAnalytics()
+            gives the resolved cart — push cart.id (keep its ?key=... param) to the
+            pixel via the method from UpPromote's Storefront API guide. */}
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{__html: `
             window.upDataLayer = window.upDataLayer || [];
             function upTag() { return upDataLayer.push(arguments); }
             upTag('config', 'myshopify_domain', 'v1tw14-5z.myshopify.com');
-            upTag('config', 'linker', ['ztweaks-3.myshopify.com', 'ztweaks.com', 'checkout.ztweaks.com']);
           `}}
         />
         <script nonce={nonce} async src="https://static-pixel.uppromote.com/collect/v1/collect.js" />
