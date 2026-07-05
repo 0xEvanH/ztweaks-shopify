@@ -28,13 +28,13 @@ import {redirect, type LoaderFunctionArgs} from 'react-router';
  */
 const AFFILIATE_REDIRECTS: Record<string, string> = {
   cobraxz:   'https://ztweaks-3.myshopify.com/?sca_ref=10694630.KUPMNMKMHyYg8',
-  pixel:     'https://ztweaks.com/?sca_ref=10850216.ccogciQJEtNJQ2',
+  pixel:     'https://ztweaks-3.myshopify.com/?sca_ref=10850216.ccogciQJEtNJQ2',
   edge:      'https://ztweaks-3.myshopify.com/?sca_ref=10702326.55l4RD4BTTQ8',
   slam:      'https://ztweaks.com/?sca_ref=10932559.m4yhb00CfyW1',
   jaydenz:   'https://ztweaks-3.myshopify.com/?sca_ref=10694633.TyW5sbmPb8',
   jaydenz1x: 'https://ztweaks-3.myshopify.com/?sca_ref=10694633.TyW5sbmPb8',
   joshreyli: 'https://ztweaks.com/?sca_ref=10700626.5BU9JnzIrpPS',
-  bren:      'https://ztweaks.com/?sca_ref=10909769.3cv7pr9IbbIcV',
+  bren:      'https://ztweaks-3.myshopify.com/?sca_ref=10909769.3cv7pr9IbbIcV',
   kozi:      'https://ztweaks.com/?sca_ref=10701721.cUG2O7xj5lbOc',
   dc:        'https://checkout.ztweaks.com/?sca_ref=10835407.pVnwjmbtwnxiy',
   guppy:     'https://ztweaks.com/?sca_ref=10700789.0sfGdblJqUj',
@@ -44,7 +44,7 @@ const AFFILIATE_REDIRECTS: Record<string, string> = {
   victerv:   'https://ztweaks.com/?sca_ref=10700626.5BU9JnzIrpPS',
   status:    'https://ztweaks.com/?sca_ref=10700626.5BU9JnzIrpPS',
   kurk:      'https://ztweaks.com/?sca_ref=10700626.5BU9JnzIrpPS',
-  verz:      'https://ztweaks.com/?sca_ref=10851122.Ftv882NNqojBFVwo',
+  verz:      'https://ztweaks-3.myshopify.com/?sca_ref=10851122.Ftv882NNqojBFVwo',
   cold:      'https://ztweaks.com/?sca_ref=10957672.N4jUoo5tubz',
   semaj:     'https://ztweaks.com/?sca_ref=11022726.3Hw47pZCa4fyDUE',
   arkeez:    'https://ztweaks.com/?sca_ref=11022794.aU1vENOMjJ1',
@@ -96,6 +96,7 @@ const EXTERNAL_REDIRECTS: Record<string, string> = {
  */
 const PROXY_REWRITES: Record<string, string> = {
   ritual: 'https://frabjous-cobbler-f17e2e.netlify.app/',
+  vergo:  'https://loquacious-sable-3040f5.netlify.app/',
 };
 
 const REDIRECTS: Record<string, string> = {
