@@ -97,6 +97,7 @@ const EXTERNAL_REDIRECTS: Record<string, string> = {
 const PROXY_REWRITES: Record<string, string> = {
   ritual: 'https://frabjous-cobbler-f17e2e.netlify.app/',
   vergo:  'https://loquacious-sable-3040f5.netlify.app/',
+  josh:   'https://warm-belekoy-f9cb11.netlify.app/',
 };
 
 const REDIRECTS: Record<string, string> = {
