@@ -85,7 +85,6 @@ const HOMEPAGE_REDIRECTS: Record<string, string> = {
 const EXTERNAL_REDIRECTS: Record<string, string> = {
   termsofservice: 'https://inspiring-baklava-d3ab6b.netlify.app/',
   dazrr:          'https://quiet-cucurucho-b0b70a.netlify.app/',
-  king:           'https://quiet-platypus-5704a7.netlify.app/',
 };
 
 /**
@@ -98,6 +97,7 @@ const PROXY_REWRITES: Record<string, string> = {
   ritual: 'https://frabjous-cobbler-f17e2e.netlify.app/',
   vergo:  'https://loquacious-sable-3040f5.netlify.app/',
   josh:   'https://warm-belekoy-f9cb11.netlify.app/',
+  king:   'https://quiet-platypus-5704a7.netlify.app/',
 };
 
 const REDIRECTS: Record<string, string> = {
