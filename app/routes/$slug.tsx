@@ -99,6 +99,7 @@ const PROXY_REWRITES: Record<string, string> = {
   vergo:  'https://loquacious-sable-3040f5.netlify.app/',
   josh:   'https://warm-belekoy-f9cb11.netlify.app/',
   king:   'https://quiet-platypus-5704a7.netlify.app/',
+  ceeslay: 'https://candid-jelly-490f30.netlify.app/',
 };
 
 const REDIRECTS: Record<string, string> = {
