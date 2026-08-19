@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Link } from 'react-router';
 import {
@@ -78,10 +78,19 @@ const bottomStats = [
 // ─── Hero ────────────────────────────────────────────────────────────────────
 
 /**
- * ZTweaks logo mark with a "dither pop-in" reveal: an SVG noise-displacement
- * filter settles from full static down to 0 while the mark springs into place.
+ * Text span with a "dither pop-in" reveal: an SVG noise-displacement filter
+ * settles from full static down to 0 while the text springs into place.
  */
-function HeroLogo() {
+function DitherPopSpan({
+  children,
+  className,
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const filterId = `hero-dither-${useId().replace(/:/g, '')}`;
   const displaceRef = useRef<SVGFEDisplacementMapElement>(null);
 
   useEffect(() => {
@@ -90,12 +99,18 @@ function HeroLogo() {
 
     const DURATION = 750; // ms
     const START_SCALE = 130;
+    const delayMs = delay * 1000;
     let raf = 0;
     let start: number | null = null;
 
     const tick = (now: number) => {
       if (start === null) start = now;
-      const t = Math.min((now - start) / DURATION, 1);
+      const elapsed = now - start - delayMs;
+      if (elapsed < 0) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      const t = Math.min(elapsed / DURATION, 1);
       const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
       node.setAttribute('scale', (START_SCALE * (1 - eased)).toFixed(1));
       if (t < 1) raf = requestAnimationFrame(tick);
@@ -103,13 +118,13 @@ function HeroLogo() {
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [delay]);
 
   return (
-    <h1 className="relative mb-6 sm:mb-8 w-full flex justify-center">
+    <>
       <svg width="0" height="0" className="absolute" aria-hidden="true" focusable="false">
         <filter
-          id="hero-dither"
+          id={filterId}
           x="-30%"
           y="-30%"
           width="160%"
@@ -133,17 +148,16 @@ function HeroLogo() {
           />
         </filter>
       </svg>
-      <motion.img
-        src="/ztweaks.png"
-        alt="ZTweaks — Elite Gaming Performance"
-        draggable={false}
+      <motion.span
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ type: 'spring', stiffness: 260, damping: 20, mass: 0.9 }}
-        style={{ filter: 'url(#hero-dither)' }}
-        className="w-full max-w-105 sm:max-w-150 md:max-w-180 h-auto select-none"
-      />
-    </h1>
+        transition={{ type: 'spring', stiffness: 260, damping: 20, mass: 0.9, delay }}
+        style={{ filter: `url(#${filterId})` }}
+        className={className}
+      >
+        {children}
+      </motion.span>
+    </>
   );
 }
 
@@ -186,8 +200,15 @@ function HeroSection() {
           </span>
         </motion.div>
 
-        {/* Title - ZTweaks logo mark, dither pop-in reveal */}
-        <HeroLogo />
+        {/* Title - matches HeroSection font-display pattern, dither pop-in reveal */}
+        <h1 className="font-display text-[clamp(40px,8vw,128px)] sm:text-[clamp(56px,10vw,128px)] leading-[0.9] sm:leading-[0.88] tracking-[0.02em] mb-6 sm:mb-8 text-center">
+          <DitherPopSpan className="text-white block" delay={0}>
+            ELITE GAMING
+          </DitherPopSpan>
+          <DitherPopSpan className="text-white/60 block" delay={0.16}>
+            PERFORMANCE
+          </DitherPopSpan>
+        </h1>
 
         {/* Subtitle */}
         <motion.p
