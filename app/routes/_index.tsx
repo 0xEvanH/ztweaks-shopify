@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Link } from 'react-router';
 import {
@@ -77,6 +77,76 @@ const bottomStats = [
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
 
+/**
+ * ZTweaks logo mark with a "dither pop-in" reveal: an SVG noise-displacement
+ * filter settles from full static down to 0 while the mark springs into place.
+ */
+function HeroLogo() {
+  const displaceRef = useRef<SVGFEDisplacementMapElement>(null);
+
+  useEffect(() => {
+    const node = displaceRef.current;
+    if (!node) return;
+
+    const DURATION = 750; // ms
+    const START_SCALE = 130;
+    let raf = 0;
+    let start: number | null = null;
+
+    const tick = (now: number) => {
+      if (start === null) start = now;
+      const t = Math.min((now - start) / DURATION, 1);
+      const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+      node.setAttribute('scale', (START_SCALE * (1 - eased)).toFixed(1));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  return (
+    <h1 className="relative mb-6 sm:mb-8 w-full flex justify-center">
+      <svg width="0" height="0" className="absolute" aria-hidden="true" focusable="false">
+        <filter
+          id="hero-dither"
+          x="-30%"
+          y="-30%"
+          width="160%"
+          height="160%"
+          colorInterpolationFilters="sRGB"
+        >
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.015 0.8"
+            numOctaves={2}
+            seed={8}
+            result="noise"
+          />
+          <feDisplacementMap
+            ref={displaceRef}
+            in="SourceGraphic"
+            in2="noise"
+            xChannelSelector="R"
+            yChannelSelector="G"
+            scale={0}
+          />
+        </filter>
+      </svg>
+      <motion.img
+        src="/ztweaks.png"
+        alt="ZTweaks — Elite Gaming Performance"
+        draggable={false}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 20, mass: 0.9 }}
+        style={{ filter: 'url(#hero-dither)' }}
+        className="w-full max-w-105 sm:max-w-150 md:max-w-180 h-auto select-none"
+      />
+    </h1>
+  );
+}
+
 function HeroSection() {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 md:px-12 overflow-hidden text-center">
@@ -116,26 +186,8 @@ function HeroSection() {
           </span>
         </motion.div>
 
-        {/* Title - matches HeroSection font-display pattern */}
-        <h1 className="font-display text-[clamp(40px,8vw,128px)] sm:text-[clamp(56px,10vw,128px)] leading-[0.9] sm:leading-[0.88] tracking-[0.02em] mb-6 sm:mb-8 text-center">
-          <motion.span
-            initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.7, delay: 0, ease: [0.22, 1, 0.36, 1] }}
-            className="text-white block"
-          >
-            ELITE GAMING
-          </motion.span>
-
-          <motion.span
-            initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.7, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
-            className="text-white/60 block"
-          >
-            PERFORMANCE
-          </motion.span>
-        </h1>
+        {/* Title - ZTweaks logo mark, dither pop-in reveal */}
+        <HeroLogo />
 
         {/* Subtitle */}
         <motion.p
